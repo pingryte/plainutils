@@ -108,8 +108,18 @@ export default function Layout({ title, children }) {
           className="underline hover:text-blue-500"
         >
           GitHub
+        </a>{' '}
+        ·{' '}
+        <a
+          href="https://coff.ee/pingryte"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-yellow-500"
+        >
+          Buy Me a Coffee
         </a>
       </footer>
+
     </div>
   );
 }
