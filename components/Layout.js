@@ -28,9 +28,10 @@ function ToolSwitcher() {
             <li key={href}>
               <Link
                 href={href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-3 p-2 rounded-md ${isActive
-                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
               >
                 {Icon && <Icon className="w-5 h-5" />}
@@ -77,7 +78,7 @@ export default function Layout({ title, children }) {
       </Head>
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">
-        <div className="px-6 py-4 max-w-4xl mx-auto flex justify-between items-center">
+        <div className="px-6 py-4 flex justify-between items-center max-w-6xl mx-auto w-full">
           <Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
             PlainUtils
           </Link>
@@ -85,9 +86,9 @@ export default function Layout({ title, children }) {
         </div>
       </header>
 
-      <main className="flex w-full gap-8 px-6 py-10">
+      <main className="flex w-full max-w-6xl mx-auto gap-8 px-6 py-10">
         {isToolPage && <ToolSwitcher />}
-        <div className="flex-1 max-w-6xl mx-auto">
+        <div className="flex-1">
           {!isHome && (
             <div className="flex items-center gap-2 mb-6">
               {Icon && <Icon className="w-6 h-6 text-blue-500" />}
@@ -97,7 +98,6 @@ export default function Layout({ title, children }) {
           {children}
         </div>
       </main>
-
 
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
         © 2025 PlainUtils ·{' '}
@@ -119,7 +119,6 @@ export default function Layout({ title, children }) {
           Buy Me a Coffee
         </a>
       </footer>
-
     </div>
   );
 }
