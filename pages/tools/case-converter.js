@@ -18,7 +18,7 @@ export default function CaseConverter() {
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full h-48 p-4 border rounded resize-none font-mono"
+        className="textarea-base h-48 resize-none font-mono"
         placeholder="Enter text here..."
       />
       <div className="space-x-2 mt-4">

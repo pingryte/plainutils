@@ -17,7 +17,7 @@ export default function WordCounter() {
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full h-48 p-4 border rounded resize-none font-mono"
+        className="textarea-base h-48 resize-none font-mono"
         placeholder="Type or paste your text here..."
       />
       <p className="mt-4 text-lg">

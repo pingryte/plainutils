@@ -33,16 +33,16 @@ export default function TextDiff() {
           value={a}
           onChange={(e) => setA(e.target.value)}
           placeholder="Original text..."
-          className="w-full h-48 p-3 border rounded resize-none font-mono"
+          className="textarea-base h-48 resize-none font-mono"
         />
         <textarea
           value={b}
           onChange={(e) => setB(e.target.value)}
           placeholder="Modified text..."
-          className="w-full h-48 p-3 border rounded resize-none font-mono"
+          className="textarea-base h-48 resize-none font-mono"
         />
       </div>
-      <pre className="mt-4 p-4 bg-gray-100 border rounded overflow-auto whitespace-pre-wrap font-mono text-sm">
+      <pre className="mt-4 p-4 border rounded overflow-auto whitespace-pre-wrap font-mono text-sm bg-gray-100 dark:bg-gray-800 dark:text-gray-100">
         {diff()}
       </pre>
     </Layout>

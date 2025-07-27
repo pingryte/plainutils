@@ -28,7 +28,7 @@ export default function UnixTimestamp() {
         <label className="block font-semibold mb-1">Unix Timestamp:</label>
         <input
           type="text"
-          className="w-full p-3 border rounded mb-2"
+          className="textarea-base mb-2"
           value={timestamp}
           onChange={(e) => setTimestamp(e.target.value)}
         />
@@ -39,7 +39,7 @@ export default function UnixTimestamp() {
         <label className="block font-semibold mb-1">ISO Date:</label>
         <input
           type="text"
-          className="w-full p-3 border rounded mb-2"
+          className="textarea-base mb-2"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />

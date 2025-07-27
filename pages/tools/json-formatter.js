@@ -24,14 +24,14 @@ export default function JsonFormatter() {
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="w-full h-40 p-3 border rounded resize-none font-mono"
+        className="textarea-base h-40 resize-none font-mono"
         placeholder="Paste JSON here..."
       />
       <button className="btn mt-2" onClick={formatJson}>Format</button>
       <textarea
         value={output}
         readOnly
-        className="w-full h-40 p-3 border rounded resize-none font-mono mt-4 bg-gray-100"
+        className="textarea-base h-40 resize-none font-mono mt-4 bg-gray-100 dark:bg-gray-800"
       />
     </Layout>
   );

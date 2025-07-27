@@ -26,7 +26,7 @@ export default function Base64() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Enter text or base64..."
-        className="w-full h-40 p-3 border rounded resize-none font-mono"
+        className="textarea-base h-40 resize-none font-mono"
       />
       <div className="space-x-2 mt-2">
         <button className="btn" onClick={encode}>Encode</button>
@@ -35,7 +35,7 @@ export default function Base64() {
       <textarea
         value={output}
         readOnly
-        className="w-full h-40 p-3 border rounded resize-none font-mono mt-4 bg-gray-100"
+        className="textarea-base h-40 resize-none font-mono mt-4"
       />
     </Layout>
   );
