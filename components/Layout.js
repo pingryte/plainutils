@@ -2,24 +2,34 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import DarkModeToggle from './DarkModeToggle';
+import { iconMap } from '../lib/iconMap';
+
 
 export default function Layout({ title, children }) {
   const router = useRouter();
   const isHome = router.pathname === '/';
+  const isToolPage = router.pathname.startsWith('/tools/');
+  const toolSlug = isToolPage ? router.pathname.split('/').pop() : null;
+  const Icon = toolSlug ? iconMap[toolSlug] : null;
+
+  const formattedTitle = title || (
+    toolSlug
+      ? toolSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+      : 'PlainUtils'
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
       <Head>
-        <title>{title}</title>
+        <title>{formattedTitle}</title>
         <meta name="description" content="PlainUtils – simple web tools for developers and everyday tasks" />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={formattedTitle} />
         <meta property="og:description" content="PlainUtils – simple web tools for developers and everyday tasks" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://plainutils.pingryte.com" />
         <meta property="og:image" content="https://plainutils.pingryte.com/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="px-6 py-4 max-w-4xl mx-auto flex justify-between items-center">
@@ -32,7 +42,10 @@ export default function Layout({ title, children }) {
 
       <main className="flex-1 px-6 py-10 max-w-4xl mx-auto">
         {!isHome && (
-          <h1 className="text-3xl font-bold mb-6">{title}</h1>
+          <div className="flex items-center gap-2 mb-6">
+            {Icon && <Icon className="w-6 h-6 text-blue-500" />}
+            <h1 className="text-3xl font-bold">{formattedTitle}</h1>
+          </div>
         )}
         {children}
       </main>
@@ -48,7 +61,6 @@ export default function Layout({ title, children }) {
           GitHub
         </a>
       </footer>
-
     </div>
   );
 }
