@@ -100,9 +100,10 @@ export default function Home() {
           </defs>
         </svg>
 
-        <h1 className="relative text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+        <h1 className="relative text-5xl font-extrabold animated-gradient mb-4">
           PlainUtils
         </h1>
+
 
         <p className="relative text-gray-600 dark:text-gray-300 text-lg mb-6">
           A collection of simple, useful developer tools to make your work easier.
