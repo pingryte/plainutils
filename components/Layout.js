@@ -74,6 +74,8 @@ export default function Layout({ title, children }) {
         <meta property="og:url" content="https://plainutils.pingryte.com" />
         <meta property="og:image" content="https://plainutils.pingryte.com/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="keywords" content="word count, json format, developer tools, online tools" />
+
       </Head>
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">

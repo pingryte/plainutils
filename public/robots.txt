@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://plainutils.pingryte.com
+
+# Sitemaps
+Sitemap: https://plainutils.pingryte.com/sitemap.xml
