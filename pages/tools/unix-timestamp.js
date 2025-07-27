@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Layout from '../../components/Layout';
+import { iconMap } from '../../lib/iconMap';
 
 export default function UnixTimestamp() {
   const [timestamp, setTimestamp] = useState('');
@@ -8,18 +9,21 @@ export default function UnixTimestamp() {
   const convertToDate = () => {
     const ms = parseInt(timestamp) * 1000;
     const d = new Date(ms);
-    if (!isNaN(d)) setDate(d.toISOString());
-    else setDate('Invalid timestamp');
+    setDate(!isNaN(d) ? d.toISOString() : 'Invalid timestamp');
   };
 
   const convertToTimestamp = () => {
     const d = new Date(date);
-    if (!isNaN(d)) setTimestamp(Math.floor(d.getTime() / 1000));
-    else setTimestamp('Invalid date');
+    setTimestamp(!isNaN(d) ? Math.floor(d.getTime() / 1000) : 'Invalid date');
   };
 
   return (
     <Layout title="Unix Timestamp Converter">
+      <div className="flex items-center mb-6">
+        <div className="text-blue-500 mr-2">{iconMap['Unix Timestamp Converter']}</div>
+        <h1 className="text-2xl font-bold">Unix Timestamp Converter</h1>
+      </div>
+
       <div className="mb-4">
         <label className="block font-semibold mb-1">Unix Timestamp:</label>
         <input

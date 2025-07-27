@@ -1,44 +1,31 @@
 import { useState } from 'react';
 import Layout from '../../components/Layout';
+import { iconMap } from '../../lib/iconMap';
 
 export default function CaseConverter() {
   const [text, setText] = useState('');
-  const [result, setResult] = useState('');
 
-  const toCamelCase = str =>
-    str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
-
-  const toSnakeCase = str =>
-    str.trim().toLowerCase().replace(/\s+/g, '_');
-
-  const convert = (type) => {
-    switch (type) {
-      case 'upper': return setResult(text.toUpperCase());
-      case 'lower': return setResult(text.toLowerCase());
-      case 'camel': return setResult(toCamelCase(text));
-      case 'snake': return setResult(toSnakeCase(text));
-    }
-  };
+  const toUpper = () => setText(text.toUpperCase());
+  const toLower = () => setText(text.toLowerCase());
+  const toTitle = () => setText(text.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase()));
 
   return (
     <Layout title="Case Converter">
-      <textarea
-        className="w-full h-32 p-4 border rounded mb-4 font-mono"
-        placeholder="Enter text to convert..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button className="btn" onClick={() => convert('upper')}>UPPERCASE</button>
-        <button className="btn" onClick={() => convert('lower')}>lowercase</button>
-        <button className="btn" onClick={() => convert('camel')}>camelCase</button>
-        <button className="btn" onClick={() => convert('snake')}>snake_case</button>
+      <div className="flex items-center mb-6">
+        <div className="text-blue-500 mr-2">{iconMap['Case Converter']}</div>
+        <h1 className="text-2xl font-bold">Case Converter</h1>
       </div>
       <textarea
-        className="w-full h-32 p-4 border rounded font-mono bg-gray-50"
-        readOnly
-        value={result}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="w-full h-48 p-4 border rounded resize-none font-mono"
+        placeholder="Enter text here..."
       />
+      <div className="space-x-2 mt-4">
+        <button className="btn" onClick={toUpper}>UPPERCASE</button>
+        <button className="btn" onClick={toLower}>lowercase</button>
+        <button className="btn" onClick={toTitle}>Title Case</button>
+      </div>
     </Layout>
   );
 }

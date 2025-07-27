@@ -1,40 +1,29 @@
 import { useState } from 'react';
 import Layout from '../../components/Layout';
+import { iconMap } from '../../lib/iconMap';
 
 export default function WordCounter() {
   const [text, setText] = useState('');
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   const charCount = text.length;
 
-  const downloadTextFile = () => {
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'plainutils-wordcount.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <Layout title="Word Counter">
+      <div className="flex items-center mb-6">
+        <div className="text-blue-500 mr-2">{iconMap['Word Counter']}</div>
+        <h1 className="text-2xl font-bold">Word Counter</h1>
+      </div>
+
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         className="w-full h-48 p-4 border rounded resize-none font-mono"
         placeholder="Type or paste your text here..."
       />
-      <div className="mt-4 text-lg space-y-1">
-        <p>Word count: <strong>{wordCount}</strong></p>
-        <p>Character count: <strong>{charCount}</strong></p>
-      </div>
-      <button
-        onClick={downloadTextFile}
-        className="btn mt-4"
-        disabled={!text.trim()}
-      >
-        Export to .txt
-      </button>
+      <p className="mt-4 text-lg">
+        Word count: <strong>{wordCount}</strong><br />
+        Character count: <strong>{charCount}</strong>
+      </p>
     </Layout>
   );
 }
