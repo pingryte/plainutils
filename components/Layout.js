@@ -1,12 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import DarkModeToggle from './DarkModeToggle';
 import { iconMap } from '../lib/iconMap';
-import LiveToolExplorer from './LiveToolExplorer'; // ✅ New component
-import RateThisStack from './RateThisStack';       // ✅ New component
+import RateThisStack from './RateThisStack';
 
-// ToolSwitcher component inside the same file for simplicity
 function ToolSwitcher() {
   const router = useRouter();
 
@@ -30,13 +29,12 @@ function ToolSwitcher() {
             <li key={href}>
               <Link
                 href={href}
-                aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-3 p-2 rounded-md ${isActive
                   ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
               >
-                {Icon && <Icon className="w-5 h-5" aria-hidden="true" />}
+                {Icon && <Icon className="w-5 h-5" />}
                 <span>{title}</span>
               </Link>
             </li>
@@ -49,17 +47,19 @@ function ToolSwitcher() {
 
 export default function Layout({ title, children }) {
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const isHome = router.pathname === '/';
   const isToolPage = router.pathname.startsWith('/tools/');
   const isAboutPage = router.pathname === '/about';
   const toolSlug = isToolPage ? router.pathname.split('/').pop() : null;
   const Icon = title ? iconMap[title] : null;
 
-  const formattedTitle = title || (
-    toolSlug
+  const formattedTitle =
+    title ||
+    (toolSlug
       ? toolSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-      : 'PlainUtils'
-  );
+      : 'PlainUtils');
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
@@ -80,6 +80,8 @@ export default function Layout({ title, children }) {
             <Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
               PlainUtils
             </Link>
+
+            {/* Desktop Nav */}
             <nav className="hidden md:flex gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
               <Link href="/" className="hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
               <Link href="/about" className="hover:text-blue-500 dark:hover:text-blue-400">About</Link>
@@ -89,9 +91,31 @@ export default function Layout({ title, children }) {
               </a>
             </nav>
           </div>
-          <DarkModeToggle />
+
+          {/* Dark Mode + Mobile Toggle */}
+          <div className="flex items-center gap-4">
+            <DarkModeToggle />
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden text-gray-600 dark:text-gray-300 focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              ☰
+            </button>
+          </div>
         </div>
 
+        {/* Mobile Nav Menu */}
+        {menuOpen && (
+          <div className="md:hidden px-6 pb-4 space-y-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <Link href="/" className="block hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
+            <Link href="/about" className="block hover:text-blue-500 dark:hover:text-blue-400">About</Link>
+            <Link href="/contact" className="block hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
+            <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="block hover:text-blue-500 dark:hover:text-blue-400">
+              Contribute
+            </a>
+          </div>
+        )}
       </header>
 
       <main className="flex w-full max-w-6xl mx-auto gap-8 px-6 py-10">
@@ -99,13 +123,17 @@ export default function Layout({ title, children }) {
         <div className="flex-1">
           {!isHome && (
             <div className="flex items-center gap-2 mb-6">
-              {Icon && <Icon className="w-6 h-6 text-blue-500" aria-hidden="true" />}
+              {Icon && <Icon className="w-6 h-6 text-blue-500" />}
               <h1 className="text-3xl font-bold">{formattedTitle}</h1>
             </div>
           )}
           {children}
 
-
+          {isAboutPage && (
+            <div className="mt-16">
+              <RateThisStack />
+            </div>
+          )}
         </div>
       </main>
 
