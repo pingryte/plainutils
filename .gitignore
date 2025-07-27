@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Tailwind CSS output (if applicable)
+*.css.d.ts
+
+# OS / Editor / Tooling junk
+.DS_Store
+.env
+.env.local
+.env.*.local
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Optional: Ignore local data or system files
+*.swp
+*.swo
+
