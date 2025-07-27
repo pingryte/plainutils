@@ -30,12 +30,12 @@ function ToolSwitcher() {
                 href={href}
                 aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-3 p-2 rounded-md ${isActive
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
               >
-                {Icon && <Icon className="w-5 h-5" />}
-                {title}
+                {Icon && <Icon className="w-5 h-5" aria-hidden="true" />}
+                <span>{title}</span>
               </Link>
             </li>
           );
@@ -91,7 +91,7 @@ export default function Layout({ title, children }) {
         <div className="flex-1">
           {!isHome && (
             <div className="flex items-center gap-2 mb-6">
-              {Icon && <Icon className="w-6 h-6 text-blue-500" />}
+              {Icon && <Icon className="w-6 h-6 text-blue-500" aria-hidden="true" />}
               <h1 className="text-3xl font-bold">{formattedTitle}</h1>
             </div>
           )}
