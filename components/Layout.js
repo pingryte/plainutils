@@ -76,11 +76,22 @@ export default function Layout({ title, children }) {
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="px-6 py-4 flex justify-between items-center max-w-6xl mx-auto w-full">
-          <Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-            PlainUtils
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              PlainUtils
+            </Link>
+            <nav className="hidden md:flex gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Link href="/" className="hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
+              <Link href="/about" className="hover:text-blue-500 dark:hover:text-blue-400">About</Link>
+              <Link href="/contact" className="hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
+              <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400">
+                Contribute
+              </a>
+            </nav>
+          </div>
           <DarkModeToggle />
         </div>
+
       </header>
 
       <main className="flex w-full max-w-6xl mx-auto gap-8 px-6 py-10">
