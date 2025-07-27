@@ -6,3 +6,12 @@
     @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition;
   }
   
+
+.emoji-hover {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.emoji-hover:hover {
+  transform: scale(1.2) rotate(5deg);
+}

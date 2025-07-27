@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import DarkModeToggle from './DarkModeToggle';
 import { iconMap } from '../lib/iconMap';
+import LiveToolExplorer from './LiveToolExplorer'; // ✅ New component
+import RateThisStack from './RateThisStack';       // ✅ New component
 
 // ToolSwitcher component inside the same file for simplicity
 function ToolSwitcher() {
@@ -49,6 +51,7 @@ export default function Layout({ title, children }) {
   const router = useRouter();
   const isHome = router.pathname === '/';
   const isToolPage = router.pathname.startsWith('/tools/');
+  const isAboutPage = router.pathname === '/about';
   const toolSlug = isToolPage ? router.pathname.split('/').pop() : null;
   const Icon = title ? iconMap[title] : null;
 
@@ -62,15 +65,9 @@ export default function Layout({ title, children }) {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
       <Head>
         <title>{formattedTitle}</title>
-        <meta
-          name="description"
-          content="PlainUtils – simple web tools for developers and everyday tasks"
-        />
+        <meta name="description" content="PlainUtils – simple web tools for developers and everyday tasks" />
         <meta property="og:title" content={formattedTitle} />
-        <meta
-          property="og:description"
-          content="PlainUtils – simple web tools for developers and everyday tasks"
-        />
+        <meta property="og:description" content="PlainUtils – simple web tools for developers and everyday tasks" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://plainutils.pingryte.com" />
         <meta property="og:image" content="https://plainutils.pingryte.com/og-image.png" />
@@ -96,28 +93,24 @@ export default function Layout({ title, children }) {
             </div>
           )}
           {children}
+
+
         </div>
       </main>
 
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
         © 2025 PlainUtils ·{' '}
-        <a
-          href="https://github.com/pingryte/plainutils"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-blue-500"
-        >
+        <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-500">
           GitHub
         </a>{' '}
         ·{' '}
-        <a
-          href="https://coff.ee/pingryte"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-yellow-500"
-        >
+        <a href="https://coff.ee/pingryte" target="_blank" rel="noopener noreferrer" className="underline hover:text-yellow-500">
           Buy Me a Coffee
-        </a>
+        </a>{' '}
+        ·{' '}
+        <Link href="/about" className="underline hover:text-blue-600">
+          About
+        </Link>
       </footer>
     </div>
   );
