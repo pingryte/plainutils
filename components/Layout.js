@@ -38,8 +38,17 @@ export default function Layout({ title, children }) {
       </main>
 
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
-        © 2025 PlainUtils
+        © 2025 PlainUtils ·{' '}
+        <a
+          href="https://github.com/pingryte/plainutils"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-blue-500"
+        >
+          GitHub
+        </a>
       </footer>
+
     </div>
   );
 }
