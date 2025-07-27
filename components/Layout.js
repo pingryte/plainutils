@@ -11,7 +11,15 @@ export default function Layout({ title, children }) {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
       <Head>
         <title>{title}</title>
+        <meta name="description" content="PlainUtils – simple web tools for developers and everyday tasks" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content="PlainUtils – simple web tools for developers and everyday tasks" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://plainutils.pingryte.com" />
+        <meta property="og:image" content="https://plainutils.pingryte.com/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="px-6 py-4 max-w-4xl mx-auto flex justify-between items-center">
