@@ -26,7 +26,6 @@ export default function TextDiff() {
     <Layout title="Text Diff Checker">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Text Diff Checker']}</div>
-        <h1 className="text-2xl font-bold">Text Diff Checker</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <textarea

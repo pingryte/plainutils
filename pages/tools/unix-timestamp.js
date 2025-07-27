@@ -21,7 +21,6 @@ export default function UnixTimestamp() {
     <Layout title="Unix Timestamp Converter">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Unix Timestamp Converter']}</div>
-        <h1 className="text-2xl font-bold">Unix Timestamp Converter</h1>
       </div>
 
       <div className="mb-4">

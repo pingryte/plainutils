@@ -13,7 +13,6 @@ export default function CaseConverter() {
     <Layout title="Case Converter">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Case Converter']}</div>
-        <h1 className="text-2xl font-bold">Case Converter</h1>
       </div>
       <textarea
         value={text}

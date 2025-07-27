@@ -16,6 +16,8 @@ function ToolSwitcher() {
     { title: 'Case Converter', href: '/tools/case-converter' },
     { title: 'Unix Timestamp Converter', href: '/tools/unix-timestamp' },
     { title: 'Text Diff Checker', href: '/tools/text-diff' },
+    { title: 'DNS Lookup', href: '/tools/dns-lookup' },
+    { title: 'IP Location Lookup', href: '/tools/ip-lookup' }, // ✅ Added
   ];
 
   return (
@@ -30,8 +32,8 @@ function ToolSwitcher() {
               <Link
                 href={href}
                 className={`flex items-center gap-3 p-2 rounded-md ${isActive
-                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
               >
                 {Icon && <Icon className="w-5 h-5" />}
@@ -86,7 +88,12 @@ export default function Layout({ title, children }) {
               <Link href="/" className="hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
               <Link href="/about" className="hover:text-blue-500 dark:hover:text-blue-400">About</Link>
               <Link href="/contact" className="hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
-              <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400">
+              <a
+                href="https://github.com/pingryte/plainutils"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-500 dark:hover:text-blue-400"
+              >
                 Contribute
               </a>
             </nav>
@@ -111,7 +118,12 @@ export default function Layout({ title, children }) {
             <Link href="/" className="block hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
             <Link href="/about" className="block hover:text-blue-500 dark:hover:text-blue-400">About</Link>
             <Link href="/contact" className="block hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
-            <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="block hover:text-blue-500 dark:hover:text-blue-400">
+            <a
+              href="https://github.com/pingryte/plainutils"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block hover:text-blue-500 dark:hover:text-blue-400"
+            >
               Contribute
             </a>
           </div>
@@ -139,11 +151,21 @@ export default function Layout({ title, children }) {
 
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
         © 2025 PlainUtils ·{' '}
-        <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-500">
+        <a
+          href="https://github.com/pingryte/plainutils"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-blue-500"
+        >
           GitHub
         </a>{' '}
         ·{' '}
-        <a href="https://coff.ee/pingryte" target="_blank" rel="noopener noreferrer" className="underline hover:text-yellow-500">
+        <a
+          href="https://coff.ee/pingryte"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-yellow-500"
+        >
           Buy Me a Coffee
         </a>{' '}
         ·{' '}

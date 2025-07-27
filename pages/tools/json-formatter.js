@@ -19,7 +19,6 @@ export default function JsonFormatter() {
     <Layout title="JSON Formatter">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['JSON Formatter']}</div>
-        <h1 className="text-2xl font-bold">JSON Formatter</h1>
       </div>
       <textarea
         value={input}

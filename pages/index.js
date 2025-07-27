@@ -8,6 +8,8 @@ import {
   CaseSensitive,
   Clock,
   Diff,
+  Globe2,
+  MapPin,
 } from 'lucide-react';
 
 const tools = [
@@ -17,6 +19,8 @@ const tools = [
   { title: 'Case Converter', href: '/tools/case-converter', icon: CaseSensitive },
   { title: 'Unix Timestamp Converter', href: '/tools/unix-timestamp', icon: Clock },
   { title: 'Text Diff Checker', href: '/tools/text-diff', icon: Diff },
+  { title: 'DNS Lookup', href: '/tools/dns-lookup', icon: Globe2 },
+  { title: 'IP Location Lookup', href: '/tools/ip-lookup', icon: MapPin },
 ];
 
 const faqs = [
@@ -36,7 +40,6 @@ const faqs = [
 
 function FAQ({ faqs }) {
   const [openIndex, setOpenIndex] = React.useState(null);
-
   const toggleIndex = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -104,7 +107,6 @@ export default function Home() {
           PlainUtils
         </h1>
 
-
         <p className="relative text-gray-600 dark:text-gray-300 text-lg mb-6">
           A collection of simple, useful developer tools to make your work easier.
           No sign-up required — just open and use.
@@ -135,7 +137,7 @@ export default function Home() {
       {/* FAQ Section */}
       <FAQ faqs={faqs} />
 
-      {/* Suggest a tool button below FAQs */}
+      {/* Suggest a tool button */}
       <div className="text-center">
         <a
           href="mailto:plainutils@pingryte.com"

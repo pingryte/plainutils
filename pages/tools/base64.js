@@ -19,7 +19,7 @@ export default function Base64() {
     <Layout title="Base64 Encoder / Decoder">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Base64 Encoder / Decoder']}</div>
-        <h1 className="text-2xl font-bold">Base64 Encoder / Decoder</h1>
+       
       </div>
 
       <textarea
