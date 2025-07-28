@@ -9,11 +9,9 @@ export default function WordCounter() {
 
   return (
     <Layout
-      title={{
-        title: 'Word Counter',
-        description: 'Quickly count the number of words and characters in your text with our simple online word counter tool.',
-        keywords: 'word counter, character counter, online text tool, plainutils, text analyzer'
-      }}
+      title="Word Counter"
+      description="Quickly count the number of words and characters in your text with our simple online word counter tool."
+      keywords="word counter, character counter, online text tool, plainutils, text analyzer"
     >
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Word Counter']}</div>
