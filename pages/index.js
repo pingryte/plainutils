@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import React from 'react';
+import ToolSearchBar from '../components/ToolSearchBar';
 import {
   FileText,
   Code,
@@ -115,6 +116,7 @@ export default function Home() {
           Choose a tool below to get started.
         </p>
       </section>
+
 
       {/* Tools Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

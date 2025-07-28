@@ -1,3 +1,4 @@
+import ToolSearchBar from '../components/ToolSearchBar';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import { iconMap } from '../lib/iconMap';
@@ -22,6 +23,9 @@ export default function ToolsPage() {
 
   return (
     <Layout title="">
+      <div className="mb-8 max-w-xl mx-auto">
+        <ToolSearchBar />
+      </div>
       <h1 className="text-4xl font-extrabold mb-6 text-center">🧰 Explore All Tools</h1>
       <p className="text-center text-gray-400 mb-10 max-w-2xl mx-auto">
         From quick word counts to developer utilities, find everything you need in one place.
