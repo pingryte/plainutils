@@ -16,7 +16,10 @@ export default function JsonFormatter() {
   };
 
   return (
-    <Layout title="JSON Formatter">
+    <Layout
+      title="JSON Formatter – Format and Beautify JSON Online | PlainUtils"
+      description="Use our free JSON Formatter to quickly format, validate, and beautify your JSON data. Easily readable JSON output with just one click."
+    >
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['JSON Formatter']}</div>
       </div>

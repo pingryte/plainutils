@@ -31,7 +31,11 @@ export default function DNSLookup() {
   };
 
   return (
-    <Layout title="DNS Lookup">
+    <Layout
+      title="DNS Lookup"
+      description="Perform DNS record lookups for any domain using A, MX, TXT, CNAME, NS, and more. Fast and easy DNS diagnostics."
+      ogImage="https://plainutils.com/og/dns-lookup.png"
+    >
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['DNS Lookup']}</div>
       </div>

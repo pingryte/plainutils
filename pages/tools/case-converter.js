@@ -10,7 +10,7 @@ export default function CaseConverter() {
   const toTitle = () => setText(text.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase()));
 
   return (
-    <Layout title="Case Converter">
+    <Layout title="Case Converter" description="Convert text to UPPERCASE, lowercase, or Title Case with this simple online case converter.">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Case Converter']}</div>
       </div>

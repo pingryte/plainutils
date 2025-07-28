@@ -23,7 +23,7 @@ export default function TextDiff() {
   };
 
   return (
-    <Layout title="Text Diff Checker">
+    <Layout title="Text Diff Checker" description="Compare two blocks of text and highlight the differences line by line. Ideal for tracking changes or debugging content variations." keywords="text difference, text compare, diff checker, text comparison, code diff, plainutils">
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Text Diff Checker']}</div>
       </div>

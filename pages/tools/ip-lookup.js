@@ -49,7 +49,13 @@ export default function IpLookup() {
   };
 
   return (
-    <Layout title="IP Location Lookup">
+    <Layout
+      title="IP Location Lookup"
+      meta={{
+        title: 'IP Location Lookup - Find Geolocation by IP Address',
+        description: 'Use our free tool to find the geographic location of any IP address. Fast, accurate IP lookup for city, country, region, and more.',
+      }}
+    >
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['IP Location Lookup']}</div>
       </div>

@@ -1,4 +1,3 @@
-import ToolSearchBar from '../components/ToolSearchBar';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import { iconMap } from '../lib/iconMap';

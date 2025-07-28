@@ -18,7 +18,11 @@ export default function UnixTimestamp() {
   };
 
   return (
-    <Layout title="Unix Timestamp Converter">
+    <Layout
+      title="Unix Timestamp Converter"
+      description="Convert between Unix timestamps and ISO 8601 dates with this simple and intuitive Unix Timestamp Converter."
+      keywords="unix timestamp, timestamp converter, epoch time, convert to ISO date, date to timestamp"
+    >
       <div className="flex items-center mb-6">
         <div className="text-blue-500 mr-2">{iconMap['Unix Timestamp Converter']}</div>
       </div>
