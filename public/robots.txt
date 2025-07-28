@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://plainutils.pingryte.com
+Host: https://plainutils.com
 
 # Sitemaps
-Sitemap: https://plainutils.pingryte.com/sitemap.xml
+Sitemap: https://plainutils.com/sitemap.xml
