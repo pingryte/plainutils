@@ -6,9 +6,8 @@ import DarkModeToggle from './DarkModeToggle';
 import { iconMap } from '../lib/iconMap';
 import RateThisStack from './RateThisStack';
 
-function ToolSwitcher() {
+function ToolSwitcher({ isMobile = false }) {
   const router = useRouter();
-
   const tools = [
     { title: 'Word Counter', href: '/tools/word-counter' },
     { title: 'JSON Formatter', href: '/tools/json-formatter' },
@@ -17,11 +16,11 @@ function ToolSwitcher() {
     { title: 'Unix Timestamp Converter', href: '/tools/unix-timestamp' },
     { title: 'Text Diff Checker', href: '/tools/text-diff' },
     { title: 'DNS Lookup', href: '/tools/dns-lookup' },
-    { title: 'IP Location Lookup', href: '/tools/ip-lookup' }, // ✅ Added
+    { title: 'IP Location Lookup', href: '/tools/ip-lookup' },
   ];
 
   return (
-    <nav className="w-60 min-h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 p-4 sticky top-0">
+    <div className={`${isMobile ? 'block md:hidden' : 'hidden md:block'} w-full md:w-60 md:min-h-screen bg-white dark:bg-gray-900 border md:border-r border-gray-200 dark:border-gray-800 p-4`}>
       <h2 className="text-xl font-bold mb-6 text-blue-600 dark:text-blue-400">Tools</h2>
       <ul className="space-y-3">
         {tools.map(({ title, href }) => {
@@ -32,8 +31,8 @@ function ToolSwitcher() {
               <Link
                 href={href}
                 className={`flex items-center gap-3 p-2 rounded-md ${isActive
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
               >
                 {Icon && <Icon className="w-5 h-5" />}
@@ -43,13 +42,14 @@ function ToolSwitcher() {
           );
         })}
       </ul>
-    </nav>
+    </div>
   );
 }
 
 export default function Layout({ title, children }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [toolMenuOpen, setToolMenuOpen] = useState(false);
 
   const isHome = router.pathname === '/';
   const isToolPage = router.pathname.startsWith('/tools/');
@@ -75,7 +75,6 @@ export default function Layout({ title, children }) {
         <meta property="og:image" content="https://plainutils.pingryte.com/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="keywords" content="word count, json format, developer tools, online tools" />
-
       </Head>
 
       <header className="bg-white dark:bg-gray-900 shadow-sm">
@@ -85,23 +84,16 @@ export default function Layout({ title, children }) {
               PlainUtils
             </Link>
 
-            {/* Desktop Nav */}
             <nav className="hidden md:flex gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
               <Link href="/" className="hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
               <Link href="/about" className="hover:text-blue-500 dark:hover:text-blue-400">About</Link>
               <Link href="/contact" className="hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
-              <a
-                href="https://github.com/pingryte/plainutils"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-500 dark:hover:text-blue-400"
-              >
+              <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400">
                 Contribute
               </a>
             </nav>
           </div>
 
-          {/* Dark Mode + Mobile Toggle */}
           <div className="flex items-center gap-4">
             <DarkModeToggle />
             <button
@@ -114,23 +106,29 @@ export default function Layout({ title, children }) {
           </div>
         </div>
 
-        {/* Mobile Nav Menu */}
         {menuOpen && (
           <div className="md:hidden px-6 pb-4 space-y-2 text-sm font-medium text-gray-700 dark:text-gray-300">
             <Link href="/" className="block hover:text-blue-500 dark:hover:text-blue-400">Tools</Link>
             <Link href="/about" className="block hover:text-blue-500 dark:hover:text-blue-400">About</Link>
             <Link href="/contact" className="block hover:text-blue-500 dark:hover:text-blue-400">Contact</Link>
-            <a
-              href="https://github.com/pingryte/plainutils"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block hover:text-blue-500 dark:hover:text-blue-400"
-            >
+            <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="block hover:text-blue-500 dark:hover:text-blue-400">
               Contribute
             </a>
           </div>
         )}
       </header>
+
+      {isToolPage && (
+        <div className="md:hidden bg-gray-100 dark:bg-gray-900 px-6 pt-4">
+          <button
+            onClick={() => setToolMenuOpen(!toolMenuOpen)}
+            className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2"
+          >
+            {toolMenuOpen ? 'Hide Tools' : 'Show Tools'}
+          </button>
+          {toolMenuOpen && <ToolSwitcher isMobile={true} />}
+        </div>
+      )}
 
       <main className="flex w-full max-w-6xl mx-auto gap-8 px-6 py-10">
         {isToolPage && <ToolSwitcher />}
@@ -142,7 +140,6 @@ export default function Layout({ title, children }) {
             </div>
           )}
           {children}
-
           {isAboutPage && (
             <div className="mt-16">
               <RateThisStack />
@@ -153,21 +150,11 @@ export default function Layout({ title, children }) {
 
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
         © 2025 PlainUtils ·{' '}
-        <a
-          href="https://github.com/pingryte/plainutils"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-blue-500"
-        >
+        <a href="https://github.com/pingryte/plainutils" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-500">
           GitHub
         </a>{' '}
         ·{' '}
-        <a
-          href="https://coff.ee/pingryte"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-yellow-500"
-        >
+        <a href="https://coff.ee/pingryte" target="_blank" rel="noopener noreferrer" className="underline hover:text-yellow-500">
           Buy Me a Coffee
         </a>{' '}
         ·{' '}
