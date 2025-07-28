@@ -5,7 +5,13 @@ import { Html, Head, Main, NextScript } from 'next/document';
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "bf0e9fb9015b47e5ad621ec9dddaeec6"}'
+        ></script>
+      </Head>
       <body>
         <Main />
         <NextScript />
