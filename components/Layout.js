@@ -1,11 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import DarkModeToggle from './DarkModeToggle';
 import { iconMap } from '../lib/iconMap';
 import RateThisStack from './RateThisStack';
-import ToolSearchBar from './ToolSearchBar';
 
 function ToolSwitcher({ isMobile = false }) {
   const router = useRouter();
@@ -65,18 +64,6 @@ export default function Layout({ title, children }) {
         ? toolSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
         : 'PlainUtils';
 
-  const searchBarRef = useRef(null);
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        searchBarRef.current?.focus();
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
@@ -134,9 +121,6 @@ export default function Layout({ title, children }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:block">
-              <ToolSearchBar className="w-64" inputRef={searchBarRef} />
-            </div>
             <DarkModeToggle />
             <button
               onClick={() => setMenuOpen(!menuOpen)}

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import React from 'react';
-import ToolSearchBar from '../components/ToolSearchBar';
 import {
   FileText,
   Code,
