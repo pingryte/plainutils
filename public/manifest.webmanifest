@@ -1,0 +1,10 @@
+{
+  "name": "PlainUtils",
+  "short_name": "PlainUtils",
+  "description": "Fast, free and privacy-conscious browser tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#2563eb",
+  "icons": [{ "src": "/og-image.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }]
+}

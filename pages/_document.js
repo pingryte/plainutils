@@ -6,16 +6,11 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <script
-          defer
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "bf0e9fb9015b47e5ad621ec9dddaeec6"}'
-        ></script>
+        <link rel="manifest" href="/manifest.webmanifest" />
       </Head>
       <body>
         <Main />
         <NextScript />
-        {/* ✅ Cloudflare Web Analytics */}
         <script
           defer
           src="https://static.cloudflareinsights.com/beacon.min.js"
@@ -25,4 +20,3 @@ export default function Document() {
     </Html>
   );
 }
-

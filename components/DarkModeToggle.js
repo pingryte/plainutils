@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 
 export default function DarkModeToggle() {
   const [dark, setDark] = useState(false);
@@ -21,9 +22,11 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={toggle}
-      className="ml-auto px-3 py-1 rounded border text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+      className="icon-button"
+      aria-label={`Switch to ${dark ? 'light' : 'dark'} mode`}
+      aria-pressed={dark}
     >
-      {dark ? '☀️ Light' : '🌙 Dark'}
+      {dark ? <Sun /> : <Moon />}
     </button>
   );
 }

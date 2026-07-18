@@ -1,30 +1,3 @@
-import { useState } from 'react';
-import Layout from '../../components/Layout';
-import { iconMap } from '../../lib/iconMap';
-
-export default function CaseConverter() {
-  const [text, setText] = useState('');
-
-  const toUpper = () => setText(text.toUpperCase());
-  const toLower = () => setText(text.toLowerCase());
-  const toTitle = () => setText(text.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase()));
-
-  return (
-    <Layout title="Case Converter" description="Convert text to UPPERCASE, lowercase, or Title Case with this simple online case converter.">
-      <div className="flex items-center mb-6">
-        <div className="text-blue-500 mr-2">{iconMap['Case Converter']}</div>
-      </div>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="textarea-base h-48 resize-none font-mono"
-        placeholder="Enter text here..."
-      />
-      <div className="space-x-2 mt-4">
-        <button className="btn" onClick={toUpper}>UPPERCASE</button>
-        <button className="btn" onClick={toLower}>lowercase</button>
-        <button className="btn" onClick={toTitle}>Title Case</button>
-      </div>
-    </Layout>
-  );
-}
+import { useState } from 'react'; import Layout from '../../components/Layout'; import ToolActions from '../../components/ToolActions';
+const words=(value)=>value.trim().replace(/([a-z0-9])([A-Z])/g,'$1 $2').split(/[^\p{L}\p{N}]+/u).filter(Boolean); const conversions={UPPERCASE:v=>v.toUpperCase(),lowercase:v=>v.toLowerCase(),'Title Case':v=>v.toLowerCase().replace(/(^|\s)\p{L}/gu,m=>m.toUpperCase()),camelCase:v=>{const w=words(v).map(x=>x.toLowerCase());return w[0]?[w[0],...w.slice(1).map(x=>x[0].toUpperCase()+x.slice(1))].join(''):'';},PascalCase:v=>words(v).map(x=>x[0].toUpperCase()+x.slice(1).toLowerCase()).join(''),snake_case:v=>words(v).map(x=>x.toLowerCase()).join('_'),'kebab-case':v=>words(v).map(x=>x.toLowerCase()).join('-')};
+export default function CaseConverter(){const[text,setText]=useState('');return <Layout title="Case Converter" description="Convert text to uppercase, lowercase, title, camel, Pascal, snake, or kebab case locally."><label className="field-label" htmlFor="case-input">Text</label><textarea id="case-input" className="textarea-base h-64" value={text} onChange={e=>setText(e.target.value)} placeholder="Enter text…"/><div className="flex flex-wrap gap-2 mt-4">{Object.entries(conversions).map(([label,convert])=><button key={label} className="btn-secondary" onClick={()=>setText(convert(text))}>{label}</button>)}</div><ToolActions value={text} onPaste={setText} onClear={()=>setText('')} filename="converted-text.txt"/></Layout>}

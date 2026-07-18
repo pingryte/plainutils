@@ -1,58 +1,11 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import Layout from '../../components/Layout';
-import { iconMap } from '../../lib/iconMap';
+import ToolActions from '../../components/ToolActions';
+import { base64ToUtf8, utf8ToBase64 } from '../../lib/tool-utils';
 
 export default function Base64() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-
-  const encode = () => setOutput(btoa(input));
-  const decode = () => {
-    try {
-      setOutput(atob(input));
-    } catch (e) {
-      setOutput('Invalid base64 string');
-    }
-  };
-
-  return (
-    <>
-      <Head>
-        <title>Base64 Encoder / Decoder – PlainUtils</title>
-        <meta name="description" content="Encode or decode Base64 text easily using this free developer tool from PlainUtils." />
-        <meta property="og:title" content="Base64 Encoder / Decoder – PlainUtils" />
-        <meta property="og:description" content="Encode or decode Base64 text easily using this free developer tool from PlainUtils." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://plainutils.com/tools/base64" />
-        <meta property="og:image" content="https://plainutils.com/og/base64.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Base64 Encoder / Decoder – PlainUtils" />
-        <meta name="twitter:description" content="Encode or decode Base64 text easily using this free developer tool from PlainUtils." />
-        <meta name="twitter:image" content="https://plainutils.com/og/base64.png" />
-      </Head>
-      <Layout title="Base64 Encoder / Decoder">
-        <div className="flex items-center mb-6">
-          <div className="text-blue-500 mr-2">{iconMap['Base64 Encoder / Decoder']}</div>
-         
-        </div>
-
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter text or base64..."
-          className="textarea-base h-40 resize-none font-mono"
-        />
-        <div className="space-x-2 mt-2">
-          <button className="btn" onClick={encode}>Encode</button>
-          <button className="btn" onClick={decode}>Decode</button>
-        </div>
-        <textarea
-          value={output}
-          readOnly
-          className="textarea-base h-40 resize-none font-mono mt-4"
-        />
-      </Layout>
-    </>
-  );
+  const [input, setInput] = useState(''); const [output, setOutput] = useState(''); const [error, setError] = useState(''); const [urlSafe, setUrlSafe] = useState(false);
+  const run = (mode) => { try { setError(''); let result = mode === 'encode' ? utf8ToBase64(input) : base64ToUtf8(input); if (mode === 'encode' && urlSafe) result = result.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); setOutput(result); } catch { setOutput(''); setError('That input is not valid Base64-encoded UTF-8 text.'); } };
+  const file = (event) => { const selected = event.target.files[0]; if (!selected) return; const reader = new FileReader(); reader.onload = () => setInput(String(reader.result).split(',')[1]); reader.readAsDataURL(selected); };
+  return <Layout title="Base64 Encoder / Decoder" description="Encode Unicode text or files and decode standard or URL-safe Base64 locally in your browser."><label className="field-label" htmlFor="base64-input">Input</label><textarea id="base64-input" value={input} onChange={(e) => setInput(e.target.value)} className="textarea-base h-44 font-mono" placeholder="Enter Unicode text or Base64…"/><div className="flex flex-wrap gap-2 mt-3"><button className="btn" onClick={() => run('encode')}>Encode</button><button className="btn" onClick={() => run('decode')}>Decode</button><label className="btn-secondary cursor-pointer">Load file<input type="file" className="sr-only" onChange={file}/></label><label className="flex items-center gap-2 px-2"><input type="checkbox" checked={urlSafe} onChange={(e) => setUrlSafe(e.target.checked)}/> URL-safe output</label></div>{error && <p className="error-message" role="alert">{error}</p>}<label className="field-label mt-5" htmlFor="base64-output">Output</label><textarea id="base64-output" value={output} readOnly className="textarea-base h-44 font-mono"/><ToolActions value={output} onPaste={setInput} onClear={() => { setInput(''); setOutput(''); setError(''); }} filename="base64.txt"/></Layout>;
 }
