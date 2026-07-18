@@ -5,12 +5,12 @@ import { iconMap } from '../lib/iconMap';
 const tools = [
   { name: 'Word Counter', description: 'Count words and characters.', path: '/tools/word-counter', category: 'Text Tools' },
   { name: 'JSON Formatter', description: 'Format and validate JSON.', path: '/tools/json-formatter', category: 'Developer Tools' },
-  { name: 'Base64 Encoder / Decoder', description: 'Encode/decode Base64 text.', path: '/tools/base64-encoder-decoder', category: 'Encoding Tools' },
+  { name: 'Base64 Encoder / Decoder', description: 'Encode/decode Base64 text.', path: '/tools/base64', category: 'Encoding Tools' },
   { name: 'Case Converter', description: 'Convert case styles.', path: '/tools/case-converter', category: 'Text Tools' },
-  { name: 'Unix Timestamp Converter', description: 'Convert timestamps to dates.', path: '/tools/unix-timestamp-converter', category: 'Developer Tools' },
-  { name: 'Text Diff Checker', description: 'Compare text.', path: '/tools/text-diff-checker', category: 'Developer Tools' },
+  { name: 'Unix Timestamp Converter', description: 'Convert timestamps to dates.', path: '/tools/unix-timestamp', category: 'Developer Tools' },
+  { name: 'Text Diff Checker', description: 'Compare text.', path: '/tools/text-diff', category: 'Developer Tools' },
   { name: 'DNS Lookup', description: 'DNS queries.', path: '/tools/dns-lookup', category: 'Network Tools' },
-  { name: 'IP Location Lookup', description: 'IP geolocation.', path: '/tools/ip-location-lookup', category: 'Network Tools' },
+  { name: 'IP Location Lookup', description: 'IP geolocation.', path: '/tools/ip-lookup', category: 'Network Tools' },
 ];
 
 export default function ToolsPage() {
