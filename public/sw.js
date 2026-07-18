@@ -1,4 +1,4 @@
-const CACHE = 'plainutils-v2';
+const CACHE = 'plainutils-v3';
 const SHELL = ['/', '/tools', '/about', '/privacy', '/manifest.webmanifest', '/og-image.png'];
 
 self.addEventListener('install', (event) => {

@@ -2,9 +2,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, Search, Workflow, X } from 'lucide-react';
 import DarkModeToggle from './DarkModeToggle';
 import { toolByHref, tools } from '../lib/tools';
+import CommandPalette from './CommandPalette';
 
 const SITE = 'https://plainutils.com';
 
@@ -24,6 +25,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const currentTool = toolByHref[router.pathname];
   const pageTitle = metaTitle || (title && title !== 'PlainUtils' ? `${title} | PlainUtils` : 'PlainUtils – Fast, Free Browser Tools');
   const canonicalPath = canonical || (router.pathname === '/' ? '' : router.asPath.split('?')[0]);
@@ -32,6 +34,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
   const relatedTools = currentTool ? tools.filter((tool) => tool.category === currentTool.category && tool.href !== currentTool.href).slice(0, 3) : [];
 
   useEffect(() => { setMenuOpen(false); setToolsOpen(false); }, [router.asPath]);
+  useEffect(() => { const open = (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setPaletteOpen(true); } }; window.addEventListener('keydown', open); return () => window.removeEventListener('keydown', open); }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
@@ -49,7 +52,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
           <div className="flex items-center gap-6"><Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">PlainUtils</Link>
             <nav className="hidden md:flex gap-5 text-sm font-medium" aria-label="Main navigation"><Link href="/tools">Tools</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>
           </div>
-          <div className="flex items-center gap-2"><Link href="/tools" aria-label="Search tools" className="icon-button"><Search /></Link><DarkModeToggle /><button onClick={() => setMenuOpen(!menuOpen)} className="icon-button md:hidden" aria-expanded={menuOpen} aria-label="Toggle navigation">{menuOpen ? <X /> : <Menu />}</button></div>
+          <div className="flex items-center gap-2"><Link href="/workspace" aria-label="Open pipeline workspace" className="icon-button"><Workflow /></Link><button onClick={() => setPaletteOpen(true)} aria-label="Search tools, Command K" className="icon-button flex items-center gap-2"><Search /><span className="hidden lg:inline text-xs text-gray-500">⌘K</span></button><DarkModeToggle /><button onClick={() => setMenuOpen(!menuOpen)} className="icon-button md:hidden" aria-expanded={menuOpen} aria-label="Toggle navigation">{menuOpen ? <X /> : <Menu />}</button></div>
         </div>
         {menuOpen && <nav className="md:hidden px-6 pb-4 grid gap-2" aria-label="Mobile navigation"><Link href="/tools">Tools</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>}
       </header>
@@ -63,6 +66,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
         </div>
       </main>
       <footer className="border-t border-gray-200 dark:border-gray-800 text-center text-gray-500 text-sm py-5 px-4">© {new Date().getFullYear()} PlainUtils · <Link href="/privacy" className="underline">Privacy</Link> · <a href="https://github.com/pingryte/plainutils" className="underline" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://coff.ee/pingryte" className="underline" target="_blank" rel="noreferrer">Support</a></footer>
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
     </div>
   );
 }

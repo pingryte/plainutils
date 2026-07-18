@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 
 async function sourceModule(path) {
   const source = await readFile(new URL(path, import.meta.url), 'utf8');
@@ -17,11 +18,10 @@ test('line diff supports case and whitespace normalization', async () => {
   assert.equal(diffLines(' Hello   world ', 'hello world', { ignoreCase: true, ignoreWhitespace: true })[0].type, 'same');
 });
 
-test('simple YAML mappings round-trip through JSON', async () => {
-  const { parseSimpleYaml, jsonToYaml } = await sourceModule('../lib/yaml.js');
-  const value = parseSimpleYaml('name: PlainUtils\nsettings:\n  free: true\n  count: 18');
-  assert.deepEqual(value, { name: 'PlainUtils', settings: { free: true, count: 18 } });
-  assert.match(jsonToYaml(value), /free: true/);
+test('full YAML documents support arrays and nested mappings', () => {
+  const value = parseYaml('name: PlainUtils\ntools:\n  - JSON\n  - YAML\nsettings:\n  free: true');
+  assert.deepEqual(value, { name: 'PlainUtils', tools: ['JSON', 'YAML'], settings: { free: true } });
+  assert.match(stringifyYaml(value), /- YAML/);
 });
 
 test('UTF-8 Base64 handles non-ASCII text', async () => {

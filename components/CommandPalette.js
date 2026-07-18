@@ -1,0 +1,14 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Search, Workflow, X } from 'lucide-react';
+import { tools } from '../lib/tools';
+
+export default function CommandPalette({ open, onClose }) {
+  const router = useRouter(); const inputRef = useRef(null); const [query, setQuery] = useState(''); const [active, setActive] = useState(0);
+  const items = useMemo(() => [{ title: 'Pipeline Workspace', description: 'Chain local transformations', href: '/workspace', icon: Workflow }, ...tools].filter((item) => `${item.title} ${item.description || ''} ${item.category || ''}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  useEffect(() => { if (open) { setQuery(''); setActive(0); setTimeout(() => inputRef.current?.focus(), 0); } }, [open]);
+  useEffect(() => { if (active >= items.length) setActive(0); }, [active, items.length]);
+  if (!open) return null;
+  const choose = (href) => { onClose(); router.push(href); };
+  return <div className="fixed inset-0 z-50 bg-black/60 p-4 pt-[10vh]" onMouseDown={onClose}><div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden" role="dialog" aria-modal="true" aria-label="Find a tool" onMouseDown={(event) => event.stopPropagation()}><div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700"><Search className="w-5 h-5 text-gray-400"/><input ref={inputRef} className="flex-1 bg-transparent outline-none text-lg" placeholder="Search tools or workflows…" value={query} onChange={(event) => { setQuery(event.target.value); setActive(0); }} onKeyDown={(event) => { if (event.key === 'Escape') onClose(); if (event.key === 'ArrowDown') { event.preventDefault(); setActive((active + 1) % Math.max(items.length, 1)); } if (event.key === 'ArrowUp') { event.preventDefault(); setActive((active - 1 + items.length) % Math.max(items.length, 1)); } if (event.key === 'Enter' && items[active]) choose(items[active].href); }}/><button className="icon-button" onClick={onClose} aria-label="Close command palette"><X/></button></div><div className="max-h-[60vh] overflow-auto p-2">{items.map((item, index) => { const Icon = item.icon; return <button key={item.href} className={`w-full text-left flex gap-3 p-3 rounded-lg ${index === active ? 'bg-blue-50 dark:bg-blue-950' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`} onMouseEnter={() => setActive(index)} onClick={() => choose(item.href)}><Icon className="w-5 h-5 text-blue-600 mt-0.5"/><span><strong className="block">{item.title}</strong><span className="text-sm text-gray-500">{item.description}</span></span></button>; })}{!items.length && <p className="p-6 text-center text-gray-500">No matching tools.</p>}</div><p className="px-4 py-2 border-t text-xs text-gray-500 dark:border-gray-700">↑↓ navigate · Enter open · Esc close</p></div></div>;
+}

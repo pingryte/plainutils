@@ -14,6 +14,7 @@ Before opening a pull request:
 ```bash
 npm test
 npm run build
+npm run test:e2e
 ```
 
 ## Architecture
@@ -22,6 +23,8 @@ npm run build
 - `pages/tools/` contains each statically generated utility.
 - `components/Layout.js` owns shared metadata, navigation, privacy notices, and page structure.
 - `components/ToolActions.js` supplies consistent clipboard, download, and clear actions.
+- `pages/workspace.js` chains reusable local transformations into saved pipelines.
+- `tests/e2e/` covers critical browser workflows and automated accessibility checks.
 - `tests/` covers the conversion algorithms most susceptible to edge cases.
 
 ## Adding a tool
