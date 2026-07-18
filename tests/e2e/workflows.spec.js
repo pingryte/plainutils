@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test('command palette opens from the keyboard and navigates', async ({ page }) => {
   await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Search tools, Command K' })).toBeVisible();
   await page.keyboard.press(process.platform === 'darwin' ? 'Meta+K' : 'Control+K');
   await expect(page.getByRole('dialog', { name: 'Find a tool' })).toBeVisible();
   await page.getByPlaceholder('Search tools or workflows…').fill('JSON Formatter');
