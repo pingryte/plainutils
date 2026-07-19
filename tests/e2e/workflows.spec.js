@@ -111,7 +111,25 @@ test('Markdown Studio replaces literal text and recovers its local draft', async
   await expect(page.getByRole('textbox', { name: 'Markdown', exact: true })).toHaveValue('Hello Ada. Hello Ada.');
 });
 
-for (const route of ['/', '/about', '/privacy', '/contact', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
+test('local Library saves, pins, searches, and restores a tool snippet', async ({ page }) => {
+  await page.goto('/tools/word-counter');
+  await page.getByLabel('Text').fill('A reusable PlainUtils note');
+  await page.getByRole('button', { name: 'Save to Library', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Save this snippet' })).toBeVisible();
+  await page.getByRole('dialog', { name: 'Save this snippet' }).getByLabel('Name').fill('Reusable note');
+  await page.getByRole('button', { name: 'Save snippet' }).click();
+  await expect(page.getByText('Saved to Library')).toBeVisible();
+  await page.goto('/library');
+  await page.getByPlaceholder('Search names, content, or tools…').fill('Reusable');
+  await expect(page.getByLabel('Saved snippets')).toContainText('A reusable PlainUtils note');
+  await page.getByRole('button', { name: 'Pin Reusable note' }).click();
+  await page.getByRole('button', { name: 'Restore' }).click();
+  await expect(page).toHaveURL(/\/tools\/word-counter$/);
+  await expect(page.getByLabel('Text')).toHaveValue('A reusable PlainUtils note');
+  await expect(page.getByText('Snippet restored')).toBeVisible();
+});
+
+for (const route of ['/', '/about', '/privacy', '/contact', '/library', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();

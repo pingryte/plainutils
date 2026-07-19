@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Menu, Search, Workflow, X } from 'lucide-react';
+import { BookMarked, Menu, Search, Workflow, X } from 'lucide-react';
 import DarkModeToggle from './DarkModeToggle';
 import { toolByHref, tools } from '../lib/tools';
 import CommandPalette from './CommandPalette';
@@ -50,11 +50,11 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
       <header className="site-header bg-white/85 dark:bg-gray-950/85 backdrop-blur-xl border-b border-gray-200/80 dark:border-gray-800 sticky top-0 z-40">
         <div className="px-4 sm:px-6 py-3 flex justify-between items-center max-w-7xl mx-auto">
           <div className="flex items-center gap-6"><Link href="/" className="brand-mark"><span className="brand-spark" aria-hidden="true">✦</span><span>PlainUtils</span></Link>
-            <nav className="hidden md:flex gap-5 text-sm font-medium" aria-label="Main navigation"><Link href="/tools">Tools</Link><Link href="/workflows" className="flex items-center gap-1.5"><Workflow className="w-4 h-4"/>Workflows</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>
+            <nav className="hidden md:flex gap-5 text-sm font-medium" aria-label="Main navigation"><Link href="/tools">Tools</Link><Link href="/workflows" className="flex items-center gap-1.5"><Workflow className="w-4 h-4"/>Workflows</Link><Link href="/library" className="flex items-center gap-1.5"><BookMarked className="w-4 h-4"/>Library</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>
           </div>
           <div className="flex items-center gap-2"><Link href="/workspace" aria-label="Open pipeline workspace" className="icon-button"><Workflow /></Link><button onClick={() => setPaletteOpen(true)} aria-label="Search tools, Command K" className="icon-button flex items-center gap-2"><Search /><span className="hidden lg:inline text-xs text-gray-500">⌘K</span></button><DarkModeToggle /><button onClick={() => setMenuOpen(!menuOpen)} className="icon-button md:hidden" aria-expanded={menuOpen} aria-label="Toggle navigation">{menuOpen ? <X /> : <Menu />}</button></div>
         </div>
-        {menuOpen && <nav className="md:hidden px-6 pb-4 grid gap-3" aria-label="Mobile navigation"><Link href="/tools">Tools</Link><Link href="/workflows" className="flex items-center gap-2"><Workflow className="w-4 h-4"/>Workflows</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>}
+        {menuOpen && <nav className="md:hidden px-6 pb-4 grid gap-3" aria-label="Mobile navigation"><Link href="/tools">Tools</Link><Link href="/workflows" className="flex items-center gap-2"><Workflow className="w-4 h-4"/>Workflows</Link><Link href="/library" className="flex items-center gap-2"><BookMarked className="w-4 h-4"/>Library</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>}
       </header>
       {currentTool && <div className="md:hidden px-4 pt-4"><button className="btn-secondary" onClick={() => setToolsOpen(!toolsOpen)} aria-expanded={toolsOpen}>{toolsOpen ? 'Hide tools' : 'Browse tools'}</button>{toolsOpen && <div className="mt-2 max-h-80 overflow-auto panel"><ToolNavigation /></div>}</div>}
       <main id="main-content" className="flex w-full max-w-7xl mx-auto gap-8 px-4 sm:px-6 py-8 flex-1">

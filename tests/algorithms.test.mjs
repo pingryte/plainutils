@@ -72,3 +72,15 @@ test('Markdown helpers count content and replace literal special characters', as
   assert.equal(replaceAllLiteral('a.* a.*', '.*', '$&'), 'a$& a$&');
   assert.equal(slugifyHeading('Café & APIs'), 'cafe-apis');
 });
+
+test('snippet backups are validated and expired items are removed', async () => {
+  const { cleanSnippets, expiryFromRetention, parseSnippetBackup } = await sourceModule('../lib/snippets.js');
+  const now = 1_000_000;
+  const current = { id: 'current', title: 'Useful', value: 'hello', createdAt: now, expiresAt: now + 1000 };
+  const expired = { id: 'old', title: 'Old', value: 'gone', createdAt: now - 2000, expiresAt: now - 1 };
+  assert.deepEqual(cleanSnippets([current, expired], now).map((item) => item.id), ['current']);
+  assert.equal(expiryFromRetention('7', now), now + 7 * 86_400_000);
+  assert.equal(expiryFromRetention('never', now), null);
+  assert.equal(parseSnippetBackup(JSON.stringify({ snippets: [current] }), now)[0].title, 'Useful');
+  assert.throws(() => parseSnippetBackup('{broken', now), /not valid JSON/);
+});

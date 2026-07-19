@@ -97,6 +97,12 @@
 .email-feature-icon { @apply grid place-items-center w-14 h-14 rounded-2xl bg-blue-600 text-white shrink-0 shadow-lg shadow-blue-600/20; }
 .email-feature-icon svg { @apply w-7 h-7; }
 .support-strip { @apply flex flex-col sm:flex-row sm:items-center gap-4 rounded-2xl p-5 border border-amber-200 dark:border-amber-900 bg-amber-50/70 dark:bg-amber-950/20; }
+.dialog-backdrop { @apply fixed inset-0 z-50 bg-gray-950/65 backdrop-blur-sm p-4 grid place-items-center; }
+.save-dialog { @apply w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6 shadow-2xl; }
+.snippet-dialog { @apply w-full max-w-3xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6 shadow-2xl; }
+.library-toolbar { @apply flex flex-col sm:flex-row gap-3 items-stretch sm:items-center rounded-2xl p-4 bg-white/85 dark:bg-gray-900/85 border border-gray-200 dark:border-gray-800 shadow-sm; }
+.snippet-card { @apply flex flex-col rounded-2xl p-5 bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-lg transition; }
+.snippet-preview { @apply mt-4 flex-1 w-full min-h-28 max-h-44 overflow-hidden text-left whitespace-pre-wrap break-words rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 p-3 font-mono text-xs text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-800 focus:outline-none focus:ring-2 focus:ring-blue-500; }
 
 @keyframes favourite-pop { 50% { transform: scale(1.35) rotate(12deg); } }
 @keyframes orb-float { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0); } 50% { transform: translate3d(0, -12px, 0) rotate(6deg); } }

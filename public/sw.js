@@ -1,5 +1,5 @@
-const CACHE = 'plainutils-v3';
-const SHELL = ['/', '/tools', '/about', '/privacy', '/manifest.webmanifest', '/og-image.png'];
+const CACHE = 'plainutils-v4';
+const SHELL = ['/', '/tools', '/library', '/about', '/privacy', '/manifest.webmanifest', '/og-image.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
