@@ -39,6 +39,29 @@ test('workflow presets can be run, previewed, and saved locally', async ({ page 
   await expect(page.getByRole('button', { name: 'Clean and sort lines', exact: true }).last()).toBeVisible();
 });
 
+test('workflow share links contain steps but exclude private input', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/workspace');
+  await page.getByRole('button', { name: 'Clean and sort lines' }).click();
+  await page.getByRole('button', { name: 'Copy share link' }).click();
+  await expect(page.getByText('Private workflow link copied')).toBeVisible();
+  const sharedUrl = page.url();
+  expect(sharedUrl).toContain('#workflow=');
+  expect(sharedUrl).not.toContain('pear');
+  const recipient = await context.newPage();
+  await recipient.goto(sharedUrl);
+  await expect(recipient.getByText('Shared workflow loaded')).toBeVisible();
+  await expect(recipient.getByLabel('Workflow name')).toHaveValue('Clean and sort lines');
+  await expect(recipient.getByLabel('Pipeline input')).toHaveValue('');
+  await expect(recipient.getByLabel('Transformation 3')).toHaveValue('sort-lines');
+});
+
+test('malformed workflow links fail safely', async ({ page }) => {
+  await page.goto('/workspace#workflow=not-valid-base64');
+  await expect(page.getByText('The shared workflow link is malformed or incomplete.')).toBeVisible();
+  await expect(page.getByLabel('Pipeline input')).toHaveValue('');
+});
+
 for (const route of ['/', '/tools', '/workspace', '/tools/json-formatter']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);

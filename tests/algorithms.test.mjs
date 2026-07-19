@@ -31,3 +31,22 @@ test('UTF-8 Base64 handles non-ASCII text', async () => {
   const value = 'Hello 👋 مرحبا';
   assert.equal(base64ToUtf8(utf8ToBase64(value)), value);
 });
+
+test('shared workflows round-trip without input or output data', async () => {
+  globalThis.btoa = (value) => Buffer.from(value, 'binary').toString('base64');
+  globalThis.atob = (value) => Buffer.from(value, 'base64').toString('binary');
+  const { createSharePayload, encodeSharedWorkflow, decodeSharedWorkflow } = await sourceModule('../lib/workflow-share.js');
+  const payload = createSharePayload('Unicode 👋', [{ transform: 'trim', enabled: true }]);
+  const decoded = decodeSharedWorkflow(encodeSharedWorkflow(payload), new Set(['trim']));
+  assert.deepEqual(decoded, { name: 'Unicode 👋', steps: [{ transform: 'trim', enabled: true }] });
+  assert.equal('input' in payload, false);
+  assert.equal('output' in payload, false);
+});
+
+test('shared workflows reject unknown transformations', async () => {
+  globalThis.btoa = (value) => Buffer.from(value, 'binary').toString('base64');
+  globalThis.atob = (value) => Buffer.from(value, 'base64').toString('binary');
+  const { encodeSharedWorkflow, decodeSharedWorkflow } = await sourceModule('../lib/workflow-share.js');
+  const encoded = encodeSharedWorkflow({ v: 1, name: 'Unsafe', steps: [{ transform: 'unknown', enabled: true }] });
+  assert.throws(() => decodeSharedWorkflow(encoded, new Set(['trim'])), /invalid steps/);
+});
