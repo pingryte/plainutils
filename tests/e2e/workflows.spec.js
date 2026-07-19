@@ -76,7 +76,20 @@ test('workflow gallery filters recipes and opens an example', async ({ page }) =
   await expect(page.getByLabel('Pipeline input')).toHaveValue(/eyJhbGci/);
 });
 
-for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter']) {
+test('CSV viewer parses, filters, sorts, and converts quoted data', async ({ page }) => {
+  await page.goto('/tools/csv-viewer');
+  await page.getByLabel('CSV or TSV input').fill('name,notes,score\nAda,"Uses commas, safely",10\nGrace,"Line one\nLine two",9');
+  await page.getByRole('button', { name: 'Parse data' }).click();
+  await expect(page.getByRole('table', { name: 'CSV data preview' })).toContainText('Uses commas, safely');
+  await page.getByLabel('Filter all visible columns').fill('Grace');
+  await expect(page.getByRole('table', { name: 'CSV data preview' })).toContainText('Line one');
+  await expect(page.getByRole('table', { name: 'CSV data preview' })).not.toContainText('Ada');
+  await page.getByRole('button', { name: 'Sort by score' }).click();
+  await page.getByRole('button', { name: 'Create JSON' }).click();
+  await expect(page.getByLabel('Conversion output')).toHaveValue(/"name": "Grace"/);
+});
+
+for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();

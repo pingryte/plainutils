@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
+import Papa from 'papaparse';
 
 async function sourceModule(path) {
   const source = await readFile(new URL(path, import.meta.url), 'utf8');
@@ -49,4 +50,18 @@ test('shared workflows reject unknown transformations', async () => {
   const { encodeSharedWorkflow, decodeSharedWorkflow } = await sourceModule('../lib/workflow-share.js');
   const encoded = encodeSharedWorkflow({ v: 1, name: 'Unsafe', steps: [{ transform: 'unknown', enabled: true }] });
   assert.throws(() => decodeSharedWorkflow(encoded, new Set(['trim'])), /invalid steps/);
+});
+
+test('CSV parser preserves quoted commas and multiline values', () => {
+  const result = Papa.parse('name,notes\nAda,"Uses commas, safely"\nGrace,"Line one\nLine two"', { header: true });
+  assert.equal(result.errors.length, 0);
+  assert.deepEqual(result.data, [
+    { name: 'Ada', notes: 'Uses commas, safely' },
+    { name: 'Grace', notes: 'Line one\nLine two' },
+  ]);
+});
+
+test('CSV parser detects inconsistent row widths', () => {
+  const result = Papa.parse('name,role\nAda,Engineer,Unexpected', { header: true });
+  assert.equal(result.errors.some((error) => error.code === 'TooManyFields'), true);
 });
