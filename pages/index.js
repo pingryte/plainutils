@@ -26,22 +26,12 @@ export default function Home() {
   );
   return (
     <Layout title="PlainUtils">
-      <section className="hero-stage text-center max-w-5xl mx-auto py-12 sm:py-20">
-        <div className="hero-orb hero-orb-one" aria-hidden="true" />
-        <div className="hero-orb hero-orb-two" aria-hidden="true" />
-        <p className="hero-pill">
-          <Sparkles /> Tiny tools. Surprisingly mighty.
-        </p>
-        <h1 className="text-5xl sm:text-7xl font-black tracking-tight mt-6 mb-6">
-          <span className="animated-gradient">Useful tools,</span>
-          <br />
-          without the nonsense.
-        </h1>
-        <p className="text-lg sm:text-xl leading-8 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          Fast browser utilities for developers and everyday work. No signup, no
-          clutter, and your data usually never leaves your device.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+      <section className="hero-stage hero-v2">
+        <div className="hero-copy">
+        <p className="hero-pill"><Sparkles /> The useful corner of the internet</p>
+        <h1 className="hero-title">Get the fiddly stuff <span>done.</span></h1>
+        <p className="hero-description">A sharp set of browser tools for data, text, code, and everyday problem-solving. Private by default. Ready before you are.</p>
+        <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/tools" className="btn !px-6 !py-3">
             Explore {tools.length} tools <ArrowRight />
           </Link>
@@ -57,7 +47,7 @@ export default function Home() {
             Quick search <kbd>⌘K</kbd>
           </button>
         </div>
-        <div className="mt-9 flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-9 flex flex-wrap gap-x-7 gap-y-2 text-sm text-gray-500 dark:text-gray-400">
           <span className="hero-proof">
             <Zap />
             Instant results
@@ -70,6 +60,16 @@ export default function Home() {
             <Sparkles />
             Free to use
           </span>
+        </div>
+        </div>
+        <div className="hero-visual" aria-label="PlainUtils tool preview">
+          <div className="hero-visual-glow" aria-hidden="true" />
+          <div className="hero-window">
+            <div className="hero-window-bar"><span/><span/><span/><p>plainutils / transform</p></div>
+            <div className="hero-window-body"><p className="code-muted">// messy input</p><pre>{'{ "hello" : "world", "fast":true }'}</pre><div className="hero-process"><span>FORMAT</span><i/><Sparkles/></div><p className="code-muted">// clean result</p><pre className="code-result">{'{\n  "fast": true,\n  "hello": "world"\n}'}</pre></div>
+          </div>
+          <div className="float-card float-card-one"><ShieldCheck/><span><strong>Local-first</strong><small>Your data stays put</small></span></div>
+          <div className="float-card float-card-two"><Zap/><span><strong>Instant</strong><small>No waiting around</small></span></div>
         </div>
       </section>
       <TaskFinder />

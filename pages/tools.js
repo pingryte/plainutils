@@ -41,7 +41,7 @@ export default function ToolsPage() {
       title="Explore all tools"
       description="Search PlainUtils developer, text, data, encoding, network, date, and design utilities."
     >
-      <section className="mb-8" aria-labelledby="unified-search-title">
+      <section className="catalog-search mb-8" aria-labelledby="unified-search-title">
       <div className="flex flex-wrap justify-between items-end gap-3 mb-3"><div><h2 id="unified-search-title" className="text-xl font-bold">Find the right tool</h2><p className="text-sm text-gray-500 mt-1">Search by name, format, or describe the job in plain language.</p></div>{query && filtered.length > 0 && <p className="text-sm text-violet-600 dark:text-violet-300"><strong>Best match:</strong> {filtered[0].title}</p>}</div>
       <div className="search-stage !mb-3">
         <span className="text-2xl" aria-hidden="true">
@@ -66,7 +66,7 @@ export default function ToolsPage() {
       <div className="flex flex-wrap items-center gap-2"><span className="text-xs text-gray-500">Try:</span>{quickPrompts.map((prompt) => <button key={prompt} className="search-prompt" onClick={() => setQuery(prompt)}>{prompt}</button>)}{query && <button className="text-xs text-blue-600 dark:text-blue-400 hover:underline" onClick={() => setQuery("")}>Clear search</button>}</div>
       </section>
       <aside
-        className="panel mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        className="catalog-callout panel mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         aria-labelledby="workflow-callout-title"
       >
         <div className="flex gap-3">
@@ -88,7 +88,7 @@ export default function ToolsPage() {
       {Object.entries(grouped).map(([category, categoryTools]) => {
         const style = categoryStyles[category] || defaultCategoryStyle;
         return (
-          <section key={category} className="mb-11">
+          <section key={category} className="catalog-section mb-11">
             <div className="flex items-center gap-3 mb-4">
               <span
                 className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${style.glow}`}
