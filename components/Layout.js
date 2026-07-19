@@ -37,7 +37,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
   useEffect(() => { const open = (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setPaletteOpen(true); } }; window.addEventListener('keydown', open); return () => window.removeEventListener('keydown', open); }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
+    <div className="site-shell min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={description} />
@@ -47,9 +47,9 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
         <meta name="twitter:card" content="summary_large_image" /><meta name="theme-color" content="#2563eb" />
       </Head>
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
+      <header className="site-header bg-white/85 dark:bg-gray-950/85 backdrop-blur-xl border-b border-gray-200/80 dark:border-gray-800 sticky top-0 z-40">
         <div className="px-4 sm:px-6 py-3 flex justify-between items-center max-w-7xl mx-auto">
-          <div className="flex items-center gap-6"><Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">PlainUtils</Link>
+          <div className="flex items-center gap-6"><Link href="/" className="brand-mark"><span className="brand-spark" aria-hidden="true">✦</span><span>PlainUtils</span></Link>
             <nav className="hidden md:flex gap-5 text-sm font-medium" aria-label="Main navigation"><Link href="/tools">Tools</Link><Link href="/workflows" className="flex items-center gap-1.5"><Workflow className="w-4 h-4"/>Workflows</Link><Link href="/about">About</Link><Link href="/privacy">Privacy</Link><Link href="/contact">Contact</Link></nav>
           </div>
           <div className="flex items-center gap-2"><Link href="/workspace" aria-label="Open pipeline workspace" className="icon-button"><Workflow /></Link><button onClick={() => setPaletteOpen(true)} aria-label="Search tools, Command K" className="icon-button flex items-center gap-2"><Search /><span className="hidden lg:inline text-xs text-gray-500">⌘K</span></button><DarkModeToggle /><button onClick={() => setMenuOpen(!menuOpen)} className="icon-button md:hidden" aria-expanded={menuOpen} aria-label="Toggle navigation">{menuOpen ? <X /> : <Menu />}</button></div>
@@ -60,7 +60,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
       <main id="main-content" className="flex w-full max-w-7xl mx-auto gap-8 px-4 sm:px-6 py-8 flex-1">
         {currentTool && <aside className="hidden md:block w-64 shrink-0 max-h-[calc(100vh-7rem)] overflow-auto sticky top-24 self-start"><ToolNavigation /></aside>}
         <div className="flex-1 min-w-0">
-          {title && title !== 'PlainUtils' && <header className="mb-6"><div className="flex items-center gap-2">{Icon && <Icon className="w-7 h-7 text-blue-600" aria-hidden="true" />}<h1 className="text-3xl font-bold">{title}</h1></div>{description && currentTool && <p className="mt-2 text-gray-600 dark:text-gray-400 max-w-3xl">{description}</p>}{currentTool?.external && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">Privacy note: requests from this tool are sent to {currentTool.external}.</p>}</header>}
+          {title && title !== 'PlainUtils' && <header className="mb-6"><div className="flex items-center gap-3">{Icon && <span className="page-icon"><Icon className="w-6 h-6" aria-hidden="true" /></span>}<h1 className="text-3xl font-extrabold tracking-tight">{title}</h1></div>{description && currentTool && <p className="mt-3 text-gray-600 dark:text-gray-400 max-w-3xl leading-7">{description}</p>}{currentTool?.external && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">Privacy note: requests from this tool are sent to {currentTool.external}.</p>}</header>}
           {children}
           {relatedTools.length > 0 && <aside className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800" aria-label="Related tools"><h2 className="text-xl font-bold mb-3">Related tools</h2><div className="flex flex-wrap gap-2">{relatedTools.map((tool) => <Link key={tool.href} href={tool.href} className="btn-secondary">{tool.title}</Link>)}</div></aside>}
         </div>

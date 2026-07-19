@@ -3,22 +3,61 @@
 @tailwind utilities;
 
 .btn {
-  @apply inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950;
+  @apply inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/70 dark:bg-gray-900/70 hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-y-0.5 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .btn-secondary svg, .icon-button svg { @apply w-4 h-4; }
 
-.icon-button { @apply p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500; }
-.panel { @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4; }
-.tool-card { @apply block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-blue-500; }
+.icon-button { @apply p-2 rounded-lg hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950 dark:hover:text-blue-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500; }
+.panel { @apply bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm; }
+.tool-card { @apply block bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-blue-200 dark:hover:border-blue-900 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500; }
 .skip-link { @apply fixed left-3 top-3 z-50 bg-blue-600 text-white px-4 py-2 rounded -translate-y-20 focus:translate-y-0 transition-transform; }
 .field-label { @apply block font-semibold mb-1; }
 .error-message { @apply mt-3 text-red-700 dark:text-red-400; }
 .success-message { @apply mt-3 text-green-700 dark:text-green-400; }
+
+.site-shell { position: relative; isolation: isolate; }
+.site-shell::before {
+  content: '';
+  position: fixed;
+  inset: 4rem 0 auto;
+  height: 32rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at 12% 12%, rgb(219 234 254 / .65), transparent 30%), radial-gradient(circle at 88% 20%, rgb(243 232 255 / .6), transparent 32%);
+}
+.dark .site-shell::before { background: radial-gradient(circle at 12% 12%, rgb(30 58 138 / .15), transparent 30%), radial-gradient(circle at 88% 20%, rgb(88 28 135 / .13), transparent 32%); }
+.brand-mark { @apply inline-flex items-center gap-2 text-xl sm:text-2xl font-black tracking-tight text-gray-950 dark:text-white; }
+.brand-spark { @apply grid place-items-center w-8 h-8 rounded-xl text-white text-lg bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 shadow-md shadow-violet-500/20; transform: rotate(-6deg); }
+.brand-mark:hover .brand-spark { transform: rotate(6deg) scale(1.05); }
+.brand-spark { transition: transform .2s ease; }
+.page-icon { @apply grid place-items-center w-11 h-11 rounded-xl text-blue-700 dark:text-blue-300 bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-950 dark:to-violet-950 shadow-sm; }
+.icon-tile { @apply grid place-items-center w-11 h-11 rounded-xl shrink-0 transition-transform duration-200; }
+.group:hover .icon-tile { transform: rotate(-4deg) scale(1.06); }
+.favourite-button { @apply p-1.5 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950 transition-transform; }
+.favourite-button:hover { transform: scale(1.12) rotate(8deg); }
+.favourite-button.is-favourite { animation: favourite-pop .3s ease; }
+.hero-stage { position: relative; isolation: isolate; }
+.hero-pill { @apply relative z-10 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-violet-700 dark:text-violet-300 bg-white/75 dark:bg-gray-900/75 border border-violet-200 dark:border-violet-900 shadow-sm backdrop-blur; }
+.hero-pill svg, .hero-proof svg { @apply w-4 h-4; }
+.hero-proof { @apply inline-flex items-center gap-1.5; }
+.hero-orb { position: absolute; z-index: -1; border-radius: 9999px; filter: blur(2px); opacity: .7; animation: orb-float 7s ease-in-out infinite; }
+.hero-orb-one { width: 11rem; height: 11rem; left: -2rem; top: 3rem; background: linear-gradient(135deg, rgb(191 219 254 / .65), rgb(221 214 254 / .55)); }
+.hero-orb-two { width: 8rem; height: 8rem; right: 0; bottom: 2rem; background: linear-gradient(135deg, rgb(251 207 232 / .55), rgb(254 215 170 / .55)); animation-delay: -3s; }
+.dark .hero-orb { opacity: .18; }
+.workflow-banner { position: relative; background: linear-gradient(120deg, #1d4ed8, #6d28d9 62%, #be185d); box-shadow: 0 20px 50px rgb(79 70 229 / .2); }
+.workflow-banner::after { content: ''; position: absolute; width: 18rem; height: 18rem; right: -6rem; top: -8rem; border-radius: 9999px; border: 3rem solid rgb(255 255 255 / .07); }
+.idea-card { @apply rounded-2xl p-8 sm:p-10 border border-violet-200 dark:border-violet-900 shadow-sm; background: linear-gradient(135deg, rgb(239 246 255 / .9), rgb(250 245 255 / .9), rgb(253 242 248 / .9)); }
+.dark .idea-card { background: linear-gradient(135deg, rgb(23 37 84 / .45), rgb(59 7 100 / .3), rgb(80 7 36 / .25)); }
+.search-stage { @apply flex items-center gap-3 rounded-2xl bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 px-5 py-4 shadow-lg shadow-blue-900/5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition; }
+.empty-state { @apply rounded-2xl text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60; }
+
+@keyframes favourite-pop { 50% { transform: scale(1.35) rotate(12deg); } }
+@keyframes orb-float { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0); } 50% { transform: translate3d(0, -12px, 0) rotate(6deg); } }
 
 .markdown-preview { @apply leading-7 text-gray-800 dark:text-gray-200 break-words; }
 .markdown-preview h1 { @apply text-3xl font-bold mt-0 mb-5 pb-2 border-b border-gray-200 dark:border-gray-700; }
