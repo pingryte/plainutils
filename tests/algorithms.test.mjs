@@ -65,3 +65,10 @@ test('CSV parser detects inconsistent row widths', () => {
   const result = Papa.parse('name,role\nAda,Engineer,Unexpected', { header: true });
   assert.equal(result.errors.some((error) => error.code === 'TooManyFields'), true);
 });
+
+test('Markdown helpers count content and replace literal special characters', async () => {
+  const { markdownStats, replaceAllLiteral, slugifyHeading } = await sourceModule('../lib/markdown-utils.js');
+  assert.deepEqual(markdownStats('# Hello world\n\nA **small** test.'), { words: 5, characters: 32, headings: 1, readingMinutes: 1 });
+  assert.equal(replaceAllLiteral('a.* a.*', '.*', '$&'), 'a$& a$&');
+  assert.equal(slugifyHeading('Café & APIs'), 'cafe-apis');
+});

@@ -89,7 +89,29 @@ test('CSV viewer parses, filters, sorts, and converts quoted data', async ({ pag
   await expect(page.getByLabel('Conversion output')).toHaveValue(/"name": "Grace"/);
 });
 
-for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer']) {
+test('Markdown Studio renders GFM, builds a TOC, and sanitizes HTML', async ({ page }) => {
+  await page.goto('/tools/markdown-preview');
+  await page.getByRole('textbox', { name: 'Markdown', exact: true }).fill('# Safe title\n\n| Name | Value |\n| --- | --- |\n| Tool | Works |\n\n<img src=x onerror="window.__unsafe=true"><script>window.__unsafe=true</script>');
+  await expect(page.getByLabel('Rendered Markdown preview').getByRole('heading', { name: 'Safe title' })).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Generated table of contents' }).getByRole('link', { name: 'Safe title' })).toBeVisible();
+  await expect(page.getByLabel('Rendered Markdown preview').getByRole('table')).toContainText('Works');
+  expect(await page.getByLabel('Rendered Markdown preview').evaluate((element) => element.innerHTML)).not.toMatch(/onerror|script/i);
+  expect(await page.evaluate(() => window.__unsafe)).toBeUndefined();
+});
+
+test('Markdown Studio replaces literal text and recovers its local draft', async ({ page }) => {
+  await page.goto('/tools/markdown-preview');
+  await page.getByRole('textbox', { name: 'Markdown', exact: true }).fill('Hello [name]. Hello [name].');
+  await page.getByLabel(/Find/).fill('[name]');
+  await page.getByLabel('Replace with').fill('Ada');
+  await page.getByRole('button', { name: 'Replace all' }).click();
+  await expect(page.getByRole('textbox', { name: 'Markdown', exact: true })).toHaveValue('Hello Ada. Hello Ada.');
+  await expect(page.getByText('Draft saved on this device')).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('textbox', { name: 'Markdown', exact: true })).toHaveValue('Hello Ada. Hello Ada.');
+});
+
+for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();
