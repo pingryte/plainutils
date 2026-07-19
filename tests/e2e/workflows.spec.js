@@ -28,6 +28,17 @@ test('pipeline chains transformations', async ({ page }) => {
   await expect(page.getByLabel('Final output')).toHaveValue(/\n  "hello": "world"\n/);
 });
 
+test('workflow presets can be run, previewed, and saved locally', async ({ page }) => {
+  await page.goto('/workspace');
+  await page.getByRole('button', { name: 'Clean and sort lines' }).click();
+  await page.getByRole('button', { name: 'Run pipeline' }).click();
+  await expect(page.getByLabel('Final output')).toHaveValue('apple\nbanana\npear');
+  await expect(page.getByText('Preview step output').first()).toBeVisible();
+  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(page.getByText('Workflow saved on this device')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Clean and sort lines', exact: true }).last()).toBeVisible();
+});
+
 for (const route of ['/', '/tools', '/workspace', '/tools/json-formatter']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
