@@ -96,9 +96,10 @@ test('tool share links round-trip settings and reject wrong tools', async () => 
 });
 
 test('task discovery understands plain-language intent', async () => {
-  const { findTasks } = await sourceModule('../lib/task-discovery.js');
+  const { findTasks, intentToolHrefs } = await sourceModule('../lib/task-discovery.js');
   assert.equal(findTasks('clean API json response')[0].href, '/tools/json-formatter');
   assert.equal(findTasks('compare two files')[0].href, '/tools/text-diff');
+  assert.equal(intentToolHrefs('convert spreadsheet data')[0], '/tools/csv-viewer');
 });
 
 test('smart detection identifies common structured formats', async () => {

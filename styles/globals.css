@@ -112,6 +112,7 @@
 .task-finder-icon svg { @apply w-6 h-6; }
 .task-result { @apply flex items-center justify-between gap-3 rounded-xl bg-white/80 dark:bg-gray-900/75 border border-white dark:border-gray-800 p-4 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-900 transition; }
 .task-result > svg { @apply w-4 h-4 shrink-0 text-blue-600; }
+.search-prompt { @apply rounded-full border border-gray-200 dark:border-gray-700 bg-white/70 dark:bg-gray-900/70 px-3 py-1 text-xs hover:border-violet-300 hover:text-violet-700 dark:hover:border-violet-800 dark:hover:text-violet-300 transition; }
 .focus-editor.is-focused { @apply fixed inset-0 z-50 overflow-auto bg-gray-50 dark:bg-gray-950 p-5 sm:p-10; }
 .sticky-tool-bar { @apply sticky bottom-3 z-20 flex flex-wrap items-center gap-2 mt-3 p-2 rounded-xl bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur; }
 .history-controls { @apply flex flex-wrap items-center gap-1; }

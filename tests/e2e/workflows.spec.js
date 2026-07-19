@@ -156,6 +156,14 @@ test('task finder recommends a tool from plain-language intent', async ({ page }
   await expect(page).toHaveURL(/\/tools\/text-diff$/);
 });
 
+test('tool catalogue unifies intent discovery with full search', async ({ page }) => {
+  await page.goto('/tools');
+  await expect(page.getByRole('heading', { name: 'What are you trying to do?' })).toHaveCount(0);
+  await page.getByPlaceholder('Search tools or describe what you need…').fill('compare two files');
+  await expect(page.getByText('Best match: Text Diff Checker')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Text Diff Checker/ })).toBeVisible();
+});
+
 test('Smart Detect identifies JSON and hands it to the formatter locally', async ({ page }) => {
   await page.goto('/detect');
   await page.getByLabel('Content to identify').fill('{"hello":"detector"}');

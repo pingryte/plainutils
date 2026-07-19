@@ -1,21 +1,30 @@
 import { useMemo, useState } from "react";
 import Layout from "../components/Layout";
 import ToolCard from "../components/ToolCard";
-import TaskFinder from "../components/TaskFinder";
 import { tools } from "../lib/tools";
 import Link from "next/link";
 import { ArrowRight, Workflow } from "lucide-react";
 import { categoryStyles, defaultCategoryStyle } from "../lib/category-styles";
+import { intentToolHrefs } from "../lib/task-discovery";
+
+const quickPrompts = ["clean API response", "compare two files", "preview Markdown", "convert spreadsheet data"];
 
 export default function ToolsPage() {
   const [query, setQuery] = useState("");
-  const filtered = useMemo(
-    () =>
-      tools.filter((tool) =>
-        `${tool.title} ${tool.description} ${tool.category}`
-          .toLowerCase()
-          .includes(query.toLowerCase()),
-      ),
+  const filtered = useMemo(() => {
+    const normalized = query.toLowerCase().trim();
+    if (!normalized) return tools;
+    const intentHrefs = intentToolHrefs(normalized);
+    return tools
+      .filter((tool) => `${tool.title} ${tool.description} ${tool.category}`.toLowerCase().includes(normalized) || intentHrefs.includes(tool.href))
+      .sort((left, right) => {
+        const leftRank = intentHrefs.indexOf(left.href); const rightRank = intentHrefs.indexOf(right.href);
+        if (leftRank === -1 && rightRank === -1) return 0;
+        if (leftRank === -1) return 1;
+        if (rightRank === -1) return -1;
+        return leftRank - rightRank;
+      });
+  },
     [query],
   );
   const grouped = Object.groupBy
@@ -32,8 +41,9 @@ export default function ToolsPage() {
       title="Explore all tools"
       description="Search PlainUtils developer, text, data, encoding, network, date, and design utilities."
     >
-      <TaskFinder compact />
-      <div className="search-stage mb-8">
+      <section className="mb-8" aria-labelledby="unified-search-title">
+      <div className="flex flex-wrap justify-between items-end gap-3 mb-3"><div><h2 id="unified-search-title" className="text-xl font-bold">Find the right tool</h2><p className="text-sm text-gray-500 mt-1">Search by name, format, or describe the job in plain language.</p></div>{query && filtered.length > 0 && <p className="text-sm text-violet-600 dark:text-violet-300"><strong>Best match:</strong> {filtered[0].title}</p>}</div>
+      <div className="search-stage !mb-3">
         <span className="text-2xl" aria-hidden="true">
           ⌕
         </span>
@@ -46,13 +56,15 @@ export default function ToolsPage() {
           autoFocus
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="What do you need to get done?"
+          placeholder="Search tools or describe what you need…"
           className="flex-1 bg-transparent outline-none text-lg min-w-0"
         />
         <span className="hidden sm:inline text-sm text-gray-500">
           {filtered.length} matches
         </span>
       </div>
+      <div className="flex flex-wrap items-center gap-2"><span className="text-xs text-gray-500">Try:</span>{quickPrompts.map((prompt) => <button key={prompt} className="search-prompt" onClick={() => setQuery(prompt)}>{prompt}</button>)}{query && <button className="text-xs text-blue-600 dark:text-blue-400 hover:underline" onClick={() => setQuery("")}>Clear search</button>}</div>
+      </section>
       <aside
         className="panel mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         aria-labelledby="workflow-callout-title"
