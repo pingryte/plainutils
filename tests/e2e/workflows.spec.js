@@ -129,6 +129,33 @@ test('local Library saves, pins, searches, and restores a tool snippet', async (
   await expect(page.getByText('Snippet restored')).toBeVisible();
 });
 
+test('tool configurations share settings by default and content by choice', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/tools/regex-tester');
+  await page.getByRole('button', { name: 'Email-like text' }).click();
+  await page.getByRole('button', { name: 'Share setup' }).click();
+  await page.getByRole('button', { name: 'Copy share link' }).click();
+  const settingsUrl = page.url();
+  const settingsRecipient = await context.newPage();
+  await settingsRecipient.goto(settingsUrl);
+  await expect(settingsRecipient.getByLabel('Pattern')).toHaveValue('[\\w.+-]+@[\\w.-]+\\.[a-z]{2,}');
+  await expect(settingsRecipient.getByLabel('Test text')).toHaveValue('');
+  await page.getByRole('button', { name: 'Share setup' }).click();
+  await page.getByLabel('Include test text').check();
+  await page.getByRole('button', { name: 'Copy share link' }).click();
+  const contentRecipient = await context.newPage();
+  await contentRecipient.goto(page.url());
+  await expect(contentRecipient.getByLabel('Test text')).toContainText('ada@example.com');
+});
+
+test('task finder recommends a tool from plain-language intent', async ({ page }) => {
+  await page.goto('/');
+  await page.getByPlaceholder('For example: clean an API response…').fill('compare two files');
+  await expect(page.getByRole('link', { name: /Compare two pieces of text/ })).toBeVisible();
+  await page.getByRole('link', { name: /Compare two pieces of text/ }).click();
+  await expect(page).toHaveURL(/\/tools\/text-diff$/);
+});
+
 for (const route of ['/', '/about', '/privacy', '/contact', '/library', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);

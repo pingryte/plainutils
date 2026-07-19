@@ -84,3 +84,19 @@ test('snippet backups are validated and expired items are removed', async () => 
   assert.equal(parseSnippetBackup(JSON.stringify({ snippets: [current] }), now)[0].title, 'Useful');
   assert.throws(() => parseSnippetBackup('{broken', now), /not valid JSON/);
 });
+
+test('tool share links round-trip settings and reject wrong tools', async () => {
+  globalThis.btoa = (value) => Buffer.from(value, 'binary').toString('base64');
+  globalThis.atob = (value) => Buffer.from(value, 'base64').toString('binary');
+  const { encodeToolState, decodeToolState } = await sourceModule('../lib/tool-share.js');
+  const encoded = encodeToolState('regex', { pattern: '[a-z]+', flags: 'gi' }, 'Hello');
+  assert.deepEqual(decodeToolState(encoded, 'regex', ['pattern', 'flags']), { settings: { pattern: '[a-z]+', flags: 'gi' }, content: 'Hello' });
+  assert.throws(() => decodeToolState(encoded, 'json', ['view']), /unsupported/);
+  assert.throws(() => encodeToolState('regex', {}, 'x'.repeat(100001)), /100 KB/);
+});
+
+test('task discovery understands plain-language intent', async () => {
+  const { findTasks } = await sourceModule('../lib/task-discovery.js');
+  assert.equal(findTasks('clean API json response')[0].href, '/tools/json-formatter');
+  assert.equal(findTasks('compare two files')[0].href, '/tools/text-diff');
+});

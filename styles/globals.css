@@ -103,6 +103,17 @@
 .library-toolbar { @apply flex flex-col sm:flex-row gap-3 items-stretch sm:items-center rounded-2xl p-4 bg-white/85 dark:bg-gray-900/85 border border-gray-200 dark:border-gray-800 shadow-sm; }
 .snippet-card { @apply flex flex-col rounded-2xl p-5 bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-lg transition; }
 .snippet-preview { @apply mt-4 flex-1 w-full min-h-28 max-h-44 overflow-hidden text-left whitespace-pre-wrap break-words rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 p-3 font-mono text-xs text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-800 focus:outline-none focus:ring-2 focus:ring-blue-500; }
+.tool-share-row { @apply flex flex-wrap items-center gap-3 mt-3; }
+.share-option { @apply flex items-start gap-3 rounded-xl border border-gray-200 dark:border-gray-700 p-3; }
+.share-option > svg { @apply w-5 h-5 text-green-600 shrink-0; }
+.task-finder { @apply rounded-3xl p-6 sm:p-8 mb-12 border border-violet-200 dark:border-violet-900 shadow-lg; background: linear-gradient(135deg, rgb(245 243 255 / .92), rgb(239 246 255 / .88), rgb(253 242 248 / .85)); }
+.dark .task-finder { background: linear-gradient(135deg, rgb(46 16 101 / .28), rgb(23 37 84 / .35), rgb(80 7 36 / .2)); }
+.task-finder-icon { @apply grid place-items-center w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 text-white shrink-0 shadow-lg shadow-violet-500/20; }
+.task-finder-icon svg { @apply w-6 h-6; }
+.task-result { @apply flex items-center justify-between gap-3 rounded-xl bg-white/80 dark:bg-gray-900/75 border border-white dark:border-gray-800 p-4 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-900 transition; }
+.task-result > svg { @apply w-4 h-4 shrink-0 text-blue-600; }
+.focus-editor.is-focused { @apply fixed inset-0 z-50 overflow-auto bg-gray-50 dark:bg-gray-950 p-5 sm:p-10; }
+.sticky-tool-bar { @apply sticky bottom-3 z-20 flex flex-wrap items-center gap-2 mt-3 p-2 rounded-xl bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur; }
 
 @keyframes favourite-pop { 50% { transform: scale(1.35) rotate(12deg); } }
 @keyframes orb-float { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0); } 50% { transform: translate3d(0, -12px, 0) rotate(6deg); } }

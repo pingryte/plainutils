@@ -5,7 +5,7 @@ import InfoPageHero from '../components/InfoPageHero';
 const dataAreas = [
   { icon: HardDrive, title: 'Everyday tool input', status: 'Stays local', text: 'Text, JSON, Markdown, CSV, encoding, date, colour, UUID, JWT, hashing, regex, and minification work is processed in your browser.' },
   { icon: Network, title: 'Network lookups', status: 'Uses named services', text: 'DNS Lookup sends the requested domain and record type to Google Public DNS. IP Location Lookup sends the entered IP to ipapi; “use my IP” also contacts ipify.' },
-  { icon: Share2, title: 'Shared workflows', status: 'Configuration only', text: 'Share links contain the workflow name and transformation steps in the URL fragment. Workflow input and output are deliberately excluded.' },
+  { icon: Share2, title: 'Shared links', status: 'Private by default', text: 'Workflow links contain names and transformation steps, not input or output. Shareable tool setups contain settings by default; adding tool content requires an explicit choice and displays a privacy warning.' },
   { icon: Database, title: 'Device storage', status: 'Under your control', text: 'Theme, favourites, recent tools, saved workflows, Markdown drafts, and Library snippets may be kept in this browser’s local storage.' },
 ];
 

@@ -2,10 +2,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, Clipboard, Download, FileCode2, FileDown, Maximize2, PanelLeft, PanelRight, Printer, Replace, Smartphone, Tablet, Monitor } from 'lucide-react';
 import Layout from '../../components/Layout';
 import FileDrop from '../../components/FileDrop';
+import ToolShare from '../../components/ToolShare';
 import { downloadText } from '../../lib/tool-utils';
 import { markdownStats, replaceAllLiteral, slugifyHeading, standaloneMarkdownHtml } from '../../lib/markdown-utils';
 
 const DRAFT_KEY = 'plainutils:markdown-draft';
+const SHARE_SETTINGS = ['mode', 'previewSize'];
 const EXAMPLE = `# Markdown Studio
 
 Write **Markdown** on the left and see a safe, live preview on the right.
@@ -125,6 +127,7 @@ export default function MarkdownPreview() {
 
   return <Layout title="Markdown Studio" description="Write, preview, search, and export GitHub-flavoured Markdown locally in your browser.">
     <FileDrop accept=".md,.markdown,.txt,text/markdown,text/plain" label="Drop a Markdown or text file" onFile={({ text }) => setSource(text)} />
+    <ToolShare toolId="markdown" settings={{ mode, previewSize }} allowedSettings={SHARE_SETTINGS} content={source} contentLabel="Markdown source" onLoad={({ settings, content }) => { if (['editor', 'split', 'preview'].includes(settings.mode)) setMode(settings.mode); if (['desktop', 'tablet', 'mobile'].includes(settings.previewSize)) setPreviewSize(settings.previewSize); if (content !== undefined) setSource(content); }} />
 
     <section className="panel mt-5" aria-label="Markdown controls">
       <div className="flex flex-wrap gap-2 justify-between items-end">
