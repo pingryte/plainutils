@@ -30,19 +30,19 @@ test('pipeline chains transformations', async ({ page }) => {
 
 test('workflow presets can be run, previewed, and saved locally', async ({ page }) => {
   await page.goto('/workspace');
-  await page.getByRole('button', { name: 'Clean and sort lines' }).click();
+  await page.getByRole('button', { name: 'Clean and sort text lines' }).click();
   await page.getByRole('button', { name: 'Run pipeline' }).click();
   await expect(page.getByLabel('Final output')).toHaveValue('apple\nbanana\npear');
   await expect(page.getByText('Preview step output').first()).toBeVisible();
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(page.getByText('Workflow saved on this device')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Clean and sort lines', exact: true }).last()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Clean and sort text lines', exact: true }).last()).toBeVisible();
 });
 
 test('workflow share links contain steps but exclude private input', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/workspace');
-  await page.getByRole('button', { name: 'Clean and sort lines' }).click();
+  await page.getByRole('button', { name: 'Clean and sort text lines' }).click();
   await page.getByRole('button', { name: 'Copy share link' }).click();
   await expect(page.getByText('Private workflow link copied')).toBeVisible();
   const sharedUrl = page.url();
@@ -51,7 +51,7 @@ test('workflow share links contain steps but exclude private input', async ({ pa
   const recipient = await context.newPage();
   await recipient.goto(sharedUrl);
   await expect(recipient.getByText('Shared workflow loaded')).toBeVisible();
-  await expect(recipient.getByLabel('Workflow name')).toHaveValue('Clean and sort lines');
+  await expect(recipient.getByLabel('Workflow name')).toHaveValue('Clean and sort text lines');
   await expect(recipient.getByLabel('Pipeline input')).toHaveValue('');
   await expect(recipient.getByLabel('Transformation 3')).toHaveValue('sort-lines');
 });
@@ -62,7 +62,21 @@ test('malformed workflow links fail safely', async ({ page }) => {
   await expect(page.getByLabel('Pipeline input')).toHaveValue('');
 });
 
-for (const route of ['/', '/tools', '/workspace', '/tools/json-formatter']) {
+test('workflow gallery filters recipes and opens an example', async ({ page }) => {
+  await page.goto('/workflows');
+  await expect(page.getByRole('heading', { name: 'Workflow Recipes' })).toBeVisible();
+  await page.getByPlaceholder('Search recipes by task or format…').fill('JWT');
+  await expect(page.getByRole('link', { name: 'Inspect a JWT payload' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Clean and encode JSON' })).toHaveCount(0);
+  await page.getByRole('link', { name: 'Inspect a JWT payload' }).click();
+  await expect(page).toHaveURL(/\/workflows\/inspect-jwt-payload$/);
+  await page.getByRole('button', { name: 'Open in Workspace' }).click();
+  await expect(page).toHaveURL(/\/workspace#workflow=/);
+  await expect(page.getByText('Shared workflow loaded')).toBeVisible();
+  await expect(page.getByLabel('Pipeline input')).toHaveValue(/eyJhbGci/);
+});
+
+for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();

@@ -2,10 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Search, Workflow, X } from 'lucide-react';
 import { tools } from '../lib/tools';
+import { workflowRecipes } from '../lib/workflow-recipes';
 
 export default function CommandPalette({ open, onClose }) {
   const router = useRouter(); const inputRef = useRef(null); const [query, setQuery] = useState(''); const [active, setActive] = useState(0);
-  const items = useMemo(() => [{ title: 'Pipeline Workspace', description: 'Chain local transformations', href: '/workspace', icon: Workflow }, ...tools].filter((item) => `${item.title} ${item.description || ''} ${item.category || ''}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const items = useMemo(() => [{ title: 'Workflow Recipe Gallery', description: 'Browse ready-made local workflows', href: '/workflows', icon: Workflow }, { title: 'Blank Pipeline Workspace', description: 'Build a workflow from scratch', href: '/workspace', icon: Workflow }, ...workflowRecipes.map((recipe) => ({ title: recipe.name, description: `Workflow recipe · ${recipe.description}`, href: `/workflows/${recipe.slug}`, icon: Workflow, category: recipe.category })), ...tools].filter((item) => `${item.title} ${item.description || ''} ${item.category || ''}`.toLowerCase().includes(query.toLowerCase())), [query]);
   useEffect(() => { if (open) { setQuery(''); setActive(0); setTimeout(() => inputRef.current?.focus(), 0); } }, [open]);
   useEffect(() => { if (active >= items.length) setActive(0); }, [active, items.length]);
   if (!open) return null;
