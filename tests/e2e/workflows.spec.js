@@ -156,7 +156,28 @@ test('task finder recommends a tool from plain-language intent', async ({ page }
   await expect(page).toHaveURL(/\/tools\/text-diff$/);
 });
 
-for (const route of ['/', '/about', '/privacy', '/contact', '/library', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
+test('Smart Detect identifies JSON and hands it to the formatter locally', async ({ page }) => {
+  await page.goto('/detect');
+  await page.getByLabel('Content to identify').fill('{"hello":"detector"}');
+  await expect(page.getByRole('heading', { name: 'JSON' })).toBeVisible();
+  await page.getByRole('button', { name: /JSON Formatter/ }).click();
+  await expect(page).toHaveURL(/\/tools\/json-formatter$/);
+  await expect(page.getByLabel('Input JSON')).toHaveValue('{"hello":"detector"}');
+});
+
+test('CSV editor supports undo and refresh recovery', async ({ page }) => {
+  await page.goto('/tools/csv-viewer');
+  const input = page.getByLabel('CSV or TSV input');
+  await input.fill('name\nAda');
+  await input.fill('name\nGrace');
+  await page.getByRole('button', { name: 'Undo CSV input' }).click();
+  await expect(input).toHaveValue('name\nAda');
+  await page.reload();
+  await expect(page.getByLabel('CSV or TSV input')).toHaveValue('name\nAda');
+  await expect(page.getByText('Previous session restored')).toBeVisible();
+});
+
+for (const route of ['/', '/about', '/privacy', '/contact', '/detect', '/library', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();

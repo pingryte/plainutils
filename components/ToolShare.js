@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, Link2, Share2, ShieldAlert, X } from 'lucide-react';
 import { decodeToolState, encodeToolState } from '../lib/tool-share';
+import { RESTORE_KEY } from '../lib/snippets';
 
 export default function ToolShare({ toolId, settings, allowedSettings, content, contentLabel = 'input content', onLoad }) {
   const [open, setOpen] = useState(false); const [includeContent, setIncludeContent] = useState(false); const [message, setMessage] = useState(''); const loaded = useRef(false);
   useEffect(() => {
     if (loaded.current) return; loaded.current = true;
     const encoded = new URLSearchParams(window.location.hash.slice(1)).get('tool');
-    if (!encoded) return;
+    if (!encoded) { try { const restore = JSON.parse(localStorage.getItem(RESTORE_KEY) || 'null'); if (restore?.toolHref === window.location.pathname && typeof restore.value === 'string') { onLoad({ settings: {}, content: restore.value }); localStorage.removeItem(RESTORE_KEY); setMessage('Content handed off locally'); } } catch { localStorage.removeItem(RESTORE_KEY); } return; }
     try { const state = decodeToolState(encoded, toolId, allowedSettings); onLoad(state); setMessage(state.content === undefined ? 'Shared settings loaded' : 'Shared settings and content loaded'); }
     catch (error) { setMessage(error.message); }
   }, [toolId, allowedSettings, onLoad]);

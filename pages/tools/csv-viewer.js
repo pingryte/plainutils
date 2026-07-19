@@ -13,6 +13,7 @@ import Layout from "../../components/Layout";
 import FileDrop from "../../components/FileDrop";
 import ToolActions from "../../components/ToolActions";
 import ToolShare from "../../components/ToolShare";
+import HistoryControls, { useUndoSession } from "../../components/HistoryControls";
 import { downloadText } from "../../lib/tool-utils";
 const delimiters = {
   auto: "",
@@ -46,7 +47,7 @@ function normalize(result, hasHeader) {
   };
 }
 export default function CsvViewer() {
-  const [source, setSource] = useState("");
+  const [source, setSource, sourceHistory] = useUndoSession("csv-source", "");
   const [hasHeader, setHasHeader] = useState(true);
   const [delimiter, setDelimiter] = useState("auto");
   const [fields, setFields] = useState([]);
@@ -202,9 +203,7 @@ export default function CsvViewer() {
         }}
       />
       <section className="mt-5">
-        <label className="field-label" htmlFor="csv-source">
-          CSV or TSV input
-        </label>
+        <div className="flex justify-between items-center gap-2"><label className="field-label" htmlFor="csv-source">CSV or TSV input</label><HistoryControls history={sourceHistory} label="CSV input" /></div>
         <textarea
           id="csv-source"
           className="textarea-base h-52 font-mono"

@@ -114,6 +114,30 @@
 .task-result > svg { @apply w-4 h-4 shrink-0 text-blue-600; }
 .focus-editor.is-focused { @apply fixed inset-0 z-50 overflow-auto bg-gray-50 dark:bg-gray-950 p-5 sm:p-10; }
 .sticky-tool-bar { @apply sticky bottom-3 z-20 flex flex-wrap items-center gap-2 mt-3 p-2 rounded-xl bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur; }
+.history-controls { @apply flex flex-wrap items-center gap-1; }
+.history-controls svg { @apply w-4 h-4; }
+.recovery-note { @apply inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 rounded-full px-2 py-1; }
+.recovery-note button svg { @apply w-3 h-3; }
+.handoff-menu { @apply absolute bottom-full left-0 z-30 mb-2 w-64 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl p-2; }
+.handoff-menu button { @apply flex items-center justify-between gap-2 w-full text-left rounded-lg p-2 text-sm hover:bg-blue-50 dark:hover:bg-blue-950; }
+.handoff-menu button svg { @apply w-4 h-4; }
+.detection-result { @apply rounded-3xl p-6 sm:p-8 bg-white/90 dark:bg-gray-900/90 border border-emerald-200 dark:border-emerald-900 shadow-lg self-start lg:sticky lg:top-24; }
+.detection-icon { @apply grid place-items-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20; }
+.detection-icon svg { @apply w-7 h-7; }
+
+@media (max-width: 640px) {
+  .tool-action-bar { @apply sticky bottom-2 z-20 flex-nowrap overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 p-2 shadow-xl backdrop-blur; }
+  .tool-action-bar > * { @apply shrink-0; }
+  .tool-share-row { @apply sticky bottom-2 z-20 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 p-2 shadow-xl backdrop-blur; }
+  .tool-share-row .btn-secondary { @apply flex-1; }
+  .focus-editor.is-focused { @apply p-3 pb-24; }
+  .sticky-tool-bar { @apply bottom-2 overflow-x-auto flex-nowrap; }
+  .sticky-tool-bar > * { @apply shrink-0; }
+  .markdown-preview { font-size: .95rem; }
+  .markdown-preview table { display: block; overflow-x: auto; }
+  .history-controls > span:first-child { @apply hidden; }
+  .textarea-base { font-size: 16px; }
+}
 
 @keyframes favourite-pop { 50% { transform: scale(1.35) rotate(12deg); } }
 @keyframes orb-float { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0); } 50% { transform: translate3d(0, -12px, 0) rotate(6deg); } }

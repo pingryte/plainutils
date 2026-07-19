@@ -100,3 +100,23 @@ test('task discovery understands plain-language intent', async () => {
   assert.equal(findTasks('clean API json response')[0].href, '/tools/json-formatter');
   assert.equal(findTasks('compare two files')[0].href, '/tools/text-diff');
 });
+
+test('smart detection identifies common structured formats', async () => {
+  const { detectInput } = await sourceModule('../lib/input-detection.js');
+  assert.equal(detectInput('{"ok":true}').type, 'JSON');
+  assert.equal(detectInput('name,role\nAda,Engineer').type, 'CSV');
+  assert.equal(detectInput('0 9 * * 1-5').type, 'Cron expression');
+  assert.equal(detectInput('# Notes\n\n- [x] Done').type, 'Markdown');
+});
+
+test('undo history supports set, undo, redo, and reset', async () => {
+  const { historyReducer } = await sourceModule('../lib/undo-state.js');
+  let state = { past: [], present: '', future: [] };
+  state = historyReducer(state, { type: 'set', value: 'first' });
+  state = historyReducer(state, { type: 'set', value: 'second' });
+  state = historyReducer(state, { type: 'undo' });
+  assert.equal(state.present, 'first');
+  state = historyReducer(state, { type: 'redo' });
+  assert.equal(state.present, 'second');
+  assert.deepEqual(historyReducer(state, { type: 'reset', value: '' }), { past: [], present: '', future: [] });
+});
