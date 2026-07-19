@@ -1,5 +1,28 @@
+import { BarChart3, Database, ExternalLink, HardDrive, LockKeyhole, Network, Share2, Trash2 } from 'lucide-react';
 import Layout from '../components/Layout';
+import InfoPageHero from '../components/InfoPageHero';
+
+const dataAreas = [
+  { icon: HardDrive, title: 'Everyday tool input', status: 'Stays local', text: 'Text, JSON, Markdown, CSV, encoding, date, colour, UUID, JWT, hashing, regex, and minification work is processed in your browser.' },
+  { icon: Network, title: 'Network lookups', status: 'Uses named services', text: 'DNS Lookup sends the requested domain and record type to Google Public DNS. IP Location Lookup sends the entered IP to ipapi; “use my IP” also contacts ipify.' },
+  { icon: Share2, title: 'Shared workflows', status: 'Configuration only', text: 'Share links contain the workflow name and transformation steps in the URL fragment. Workflow input and output are deliberately excluded.' },
+  { icon: Database, title: 'Device storage', status: 'Under your control', text: 'Theme, favourites, recent tools, saved workflow definitions, and your Markdown Studio draft may be kept in this browser’s local storage.' },
+];
 
 export default function Privacy() {
-  return <Layout title="Privacy" description="How PlainUtils processes tool inputs and anonymous analytics."><article className="prose dark:prose-invert max-w-3xl"><p><strong>Most PlainUtils tools process everything locally in your browser.</strong> Text, JSON, Markdown, encoding, date, colour, UUID, JWT, hashing, regex, and minification inputs are not sent to PlainUtils servers.</p><h2>Network tools</h2><p>DNS Lookup sends the domain and record type to Google Public DNS. IP Location Lookup sends the entered IP address to ipapi; “use my IP” also contacts ipify. Their privacy policies apply to those requests, and each affected tool displays a notice.</p><h2>Shared workflows</h2><p>Workflow share links encode only the workflow name and transformation steps in the URL fragment after <code>#</code>. Input and output are excluded. URL fragments are processed by the browser and are not normally sent to PlainUtils, Netlify, or analytics services.</p><h2>Analytics</h2><p>PlainUtils uses Cloudflare Web Analytics to understand aggregate traffic without cookies or cross-site tracking. Tool inputs are never included in analytics events.</p><h2>Storage on your device</h2><p>Your theme, favourites, recently used tools, saved workflow definitions, and Markdown Studio draft may be stored in browser local storage. Workflow inputs and results are not saved. You can remove local data by clearing this site’s browser data.</p><h2>Contact</h2><p>Questions can be sent to <a href="mailto:plainutils@pingryte.com">plainutils@pingryte.com</a>.</p></article></Layout>;
+  return <Layout title="Privacy" hidePageHeader description="A plain-English explanation of how PlainUtils handles tool inputs, local storage, network requests, and analytics.">
+    <InfoPageHero eyebrow="Privacy, in plain English" title="Your work is yours." description="PlainUtils is designed to avoid collecting the content you bring to its tools. Most processing happens entirely on your device, and the exceptions are labelled." icon={LockKeyhole} tone="emerald">
+      <span className="info-chip"><LockKeyhole />No account required</span><span className="info-chip"><HardDrive />Local-first processing</span><span className="info-chip"><ExternalLink />External calls disclosed</span>
+    </InfoPageHero>
+
+    <section className="privacy-summary mt-10"><ShieldStatement /><p><strong>The short version:</strong> PlainUtils does not receive the content entered into its local tools. Network tools must send the lookup value to their named provider to return an answer.</p></section>
+
+    <section className="mt-14" aria-labelledby="data-map-title"><p className="section-kicker">Data map</p><h2 id="data-map-title" className="section-title">What happens where</h2><div className="grid md:grid-cols-2 gap-4 mt-6">{dataAreas.map(({ icon: Icon, title, status, text }) => <article className="privacy-card" key={title}><div className="flex gap-3 items-start"><span className="privacy-icon"><Icon /></span><div><p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">{status}</p><h3 className="text-lg font-bold mt-1">{title}</h3></div></div><p className="text-gray-600 dark:text-gray-400 leading-7 mt-4">{text}</p></article>)}</div></section>
+
+    <section className="grid md:grid-cols-2 gap-5 mt-14"><article className="panel !p-6"><BarChart3 className="w-7 h-7 text-violet-600 dark:text-violet-300"/><h2 className="text-xl font-bold mt-4">Anonymous analytics</h2><p className="text-gray-600 dark:text-gray-400 leading-7 mt-2">Cloudflare Web Analytics helps us understand aggregate visits without cookies or cross-site tracking. Tool inputs are never added to analytics events.</p></article><article className="panel !p-6"><Trash2 className="w-7 h-7 text-rose-600 dark:text-rose-300"/><h2 className="text-xl font-bold mt-4">Clearing local data</h2><p className="text-gray-600 dark:text-gray-400 leading-7 mt-2">You can remove saved preferences, workflows, and drafts at any time by clearing PlainUtils site data in your browser settings.</p></article></section>
+
+    <section className="cta-card mt-14"><div><p className="section-kicker">Still wondering?</p><h2 className="text-2xl font-bold mt-2">Ask us directly</h2><p className="text-gray-600 dark:text-gray-400 mt-2">Privacy questions and corrections are always welcome.</p></div><a href="mailto:plainutils@pingryte.com?subject=PlainUtils%20privacy%20question" className="btn">Email a privacy question</a></section>
+  </Layout>;
 }
+
+function ShieldStatement() { return <span className="privacy-summary-icon" aria-hidden="true"><LockKeyhole /></span>; }

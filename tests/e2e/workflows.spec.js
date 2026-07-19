@@ -111,7 +111,7 @@ test('Markdown Studio replaces literal text and recovers its local draft', async
   await expect(page.getByRole('textbox', { name: 'Markdown', exact: true })).toHaveValue('Hello Ada. Hello Ada.');
 });
 
-for (const route of ['/', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
+for (const route of ['/', '/about', '/privacy', '/contact', '/tools', '/workflows', '/workflows/clean-encode-json', '/workspace', '/tools/json-formatter', '/tools/csv-viewer', '/tools/markdown-preview']) {
   test(`${route} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();

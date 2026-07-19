@@ -21,7 +21,7 @@ function ToolNavigation({ onNavigate }) {
   );
 }
 
-export default function Layout({ title, metaTitle, description = 'Fast, free and privacy-conscious browser tools for developers and everyday tasks.', keywords, canonical, children }) {
+export default function Layout({ title, metaTitle, description = 'Fast, free and privacy-conscious browser tools for developers and everyday tasks.', keywords, canonical, hidePageHeader = false, children }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -60,7 +60,7 @@ export default function Layout({ title, metaTitle, description = 'Fast, free and
       <main id="main-content" className="flex w-full max-w-7xl mx-auto gap-8 px-4 sm:px-6 py-8 flex-1">
         {currentTool && <aside className="hidden md:block w-64 shrink-0 max-h-[calc(100vh-7rem)] overflow-auto sticky top-24 self-start"><ToolNavigation /></aside>}
         <div className="flex-1 min-w-0">
-          {title && title !== 'PlainUtils' && <header className="mb-6"><div className="flex items-center gap-3">{Icon && <span className="page-icon"><Icon className="w-6 h-6" aria-hidden="true" /></span>}<h1 className="text-3xl font-extrabold tracking-tight">{title}</h1></div>{description && currentTool && <p className="mt-3 text-gray-600 dark:text-gray-400 max-w-3xl leading-7">{description}</p>}{currentTool?.external && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">Privacy note: requests from this tool are sent to {currentTool.external}.</p>}</header>}
+          {!hidePageHeader && title && title !== 'PlainUtils' && <header className="mb-6"><div className="flex items-center gap-3">{Icon && <span className="page-icon"><Icon className="w-6 h-6" aria-hidden="true" /></span>}<h1 className="text-3xl font-extrabold tracking-tight">{title}</h1></div>{description && currentTool && <p className="mt-3 text-gray-600 dark:text-gray-400 max-w-3xl leading-7">{description}</p>}{currentTool?.external && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">Privacy note: requests from this tool are sent to {currentTool.external}.</p>}</header>}
           {children}
           {relatedTools.length > 0 && <aside className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800" aria-label="Related tools"><h2 className="text-xl font-bold mb-3">Related tools</h2><div className="flex flex-wrap gap-2">{relatedTools.map((tool) => <Link key={tool.href} href={tool.href} className="btn-secondary">{tool.title}</Link>)}</div></aside>}
         </div>
